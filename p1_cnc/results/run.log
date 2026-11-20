@@ -1,0 +1,28 @@
+C:\Users\mikae\Documents\RWTH\02_WS2627\02_DigitalTwins\04_Project\.venv\Lib\site-packages\sklearn\gaussian_process\kernels.py:455: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified upper bound 1000.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\Users\mikae\Documents\RWTH\02_WS2627\02_DigitalTwins\04_Project\.venv\Lib\site-packages\sklearn\gaussian_process\kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k2__noise_level is close to the specified lower bound 1e-10. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+The chain is shorter than 50 times the integrated autocorrelation time for 2 parameter(s). Use this estimate with caution and run a longer chain!
+N/50 = 100;
+tau: [123.43638504 192.34241623  62.46313072  57.45920576  58.65712538]
+The chain is shorter than 50 times the integrated autocorrelation time for 3 parameter(s). Use this estimate with caution and run a longer chain!
+N/50 = 100;
+tau: [162.87073977 203.09988371 103.45958262  83.48035287  75.59433083]
+The chain is shorter than 50 times the integrated autocorrelation time for 5 parameter(s). Use this estimate with caution and run a longer chain!
+N/50 = 100;
+tau: [300.76659005 332.68258616 255.90730223 179.38340592 156.61590168]
+[data] rows=2000 train=1600 heldout=400 VB range=[-0.0153,0.3759]
+[diag] max|pearson|=0.059 RF CV R2 random=-0.022 blocked=-0.120
+[physics] LS fit success=True nfev=17 theta=[0.01277 0.      0.50549 0.02612 1.     ] VB0=0.0000 train_rmse=0.0035
+[heldout] RMSE physics=0.0039 data(RF+t)=0.0090 hybrid=0.0022 linear(t)=0.0031 RF(features only)=0.1114 (std=0.0994)
+[heldout] LOSO hybrid-linear=-0.00084 CI=[-0.00214585017503605, 0.000459740130599661] | hybrid-physics=-0.00162 CI=[-0.006544850051577216, 0.003310370693667961]
+[filter] train accepted 432/600 (rejection 0.280); test 144/200
+[surrogate] n_train=400 R2(flat)=0.9993 R2(VB_end)=0.9973 rmse=0.0049 median per-design RMSE=0.0010 p95=0.0091 max=0.0237 cov2sig=0.952 RK4-RK45 max=0.0003 mm nugget=1.00e-10 at_bound=False
+[surrogate] speed-up vs RK4 batch=434x (round-1 reference) vs RK45=34273x
+[sobol] n_eval=10766 base kept=1538/4096 censored=0.494 RUL S1/ST: log_k1=0.15/0.28, log_k2=0.66/0.75, alpha=0.01/0.02, log_hA=0.23/0.33, vc=0.04/0.10
+[cal 25%] acc=0.11 tau_max=192.3 steps/tau_min=26.0 RUL pred=1134 [914,1244] empirical crossing=1715 miss=-81 T*=893.8861076345431 argmin=894 interior=True
+[cal 50%] acc=0.10 tau_max=203.1 steps/tau_min=24.6 RUL pred=705 [666,730] empirical crossing=1715 miss=-10 T*=639.2052565707133 argmin=639 interior=True
+[cal 75%] acc=0.06 tau_max=332.7 steps/tau_min=15.0 RUL pred=206 [200,211] empirical crossing=1715 miss=-9 T*=197.25907384230288 argmin=197 interior=True
+[coverage] held-out (75% stage) coverage 50/80/95 = 0.515/0.775/0.905; mean width95=0.0058 mm; scale c=0.383
+[decision] 50% life c_f=5: interior=True argmin=639.2 sweep argmin range=[639.2052565707133, 664.1739674593241] interior in sweep=4/4 stressed nontrivial=False
+[done] runtime=183.6s metrics and summary written to C:\Users\mikae\Documents\RWTH\02_WS2627\02_DigitalTwins\04_Project\p1_cnc\results

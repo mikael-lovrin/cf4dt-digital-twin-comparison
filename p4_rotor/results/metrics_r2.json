@@ -1,0 +1,271 @@
+{
+ "project": "p4_rotor",
+ "n_rows": 5980,
+ "target": "Z Root Mean Squared (Z-axis RMS acceleration, chosen axis)",
+ "target_unit": "g (assumed; accelerometer data units)",
+ "has_real_time_axis": false,
+ "has_unit_ids": true,
+ "data_synthetic_suspected": false,
+ "heldout_rmse": {
+  "physics": 0.125512,
+  "data_driven": 0.067337,
+  "hybrid": 0.055661
+ },
+ "heldout_nrmse": {
+  "physics": 0.778508,
+  "data_driven": 0.417668,
+  "hybrid": 0.345248
+ },
+ "surrogate": {
+  "r2": 0.998778,
+  "rmse": 0.048215400494504825,
+  "coverage_2sigma": 0.9625,
+  "speedup_x": 0.005898833228227923
+ },
+ "sobol": {
+  "k": {
+   "S1": 0.192967,
+   "ST": 0.251117
+  },
+  "c": {
+   "S1": 0.095906,
+   "ST": 0.145255
+  },
+  "m": {
+   "S1": 0.0139,
+   "ST": 0.041034
+  },
+  "e": {
+   "S1": 0.634426,
+   "ST": 0.634236
+  }
+ },
+ "calibration": {
+  "posterior_to_prior_std_ratio": {
+   "k_over_m": 0.264986,
+   "c_over_m": 0.479013,
+   "e_over_m": 0.302136,
+   "sigma_obs": 0.65872,
+   "a_disc": 0.514545
+  },
+  "mean_autocorr_time": 290.7184786002091,
+  "acceptance_fraction": 0.43444791666666666,
+  "coverage95_heldout": 0.42857142857142855
+ },
+ "risk": {
+  "description": "P(RMS_Z > 0.1028 g) at 2400 RPM (top of the calibrated range) without action, held-out experiment M0.0_U20.4_A1B0, posterior after 75% of the speed sweep (300-2400 RPM used); limit = P99 of healthy Z RMS. Values above 2400 RPM are extrapolations and are not part of this number.",
+  "value": 0.999991260618389
+ },
+ "decision": {
+  "description": "Expected-cost-per-hour optimum over speed setpoint (300-2400 RPM, 150 step, calibrated range only) and rebalance option, M0.0_U20.4_A1B0, 75% posterior, baseline costs (assumptions); action=rebalance, derate factor=0.88; optimum range over the cost sweep = 1500-2400 RPM",
+  "optimal_value": 2100.0,
+  "unit": "RPM (setpoint)",
+  "expected_cost": 2.89235346437309
+ },
+ "runtime_sec": 431.02,
+ "limitations": [
+  "Target is the Z-axis RMS (chosen by a documented criterion); the axis choice is recomputed on the training rows of every LOGO fold (18/18 folds pick Z), so the held-out groups do not drive it. The Normal reference is always in training.",
+  "The data have no time axis: no wear/degradation trajectory, so there is no RUL; the decision is a speed/rebalance choice at a fixed unbalance state.",
+  "Misalignment is not modelled physically; the Jeffcott physics only describes the unbalance-induced response. Misalignment-only groups are predicted by the healthy floor in Pure Physics.",
+  "m and e are NOT separately identifiable from RMS vs RPM: the response depends only on k/m, c/m and e/m (identity checked numerically, see section 4). The calibration therefore runs in (k/m, c/m, e/m); m is not a calibrated quantity and the absolute values of k, c, e are only conditional on the fixed M_FIX = 3 kg.",
+  "The sensor gain and the physical unbalance radius are absorbed into e/m; RMS is assumed to be in g. No sensor calibration was available.",
+  "Both-disc configurations (TypeA=TypeB=1) are modelled as twice the unbalance mass in phase; phase between the two discs is not modelled.",
+  "The healthy-machine background floor (per-RPM mean of the Normal rows) is added in quadrature. It is always kept in training, so the Normal group is not a held-out test set.",
+  "Calibration uses one held-out experiment (group M0.0_U20.4, TypeA only). Only 7 in-range unused point evaluations (pooled over the 25% and 50% stages, which share the same points) and 9 extrapolated ones are available, so the coverage estimate is coarse.",
+  "The model-discrepancy GP has a fixed correlation length of 500 RPM (assumption) and is added in log space; the same discrepancy is applied to the rebalanced scenario, which is an approximation.",
+  "Severity limit = P99 of healthy Z-RMS (0.1028 g; a percentile assumption, no ISO limit for raw g units). Decision costs are assumptions, not data; they are swept (V_full, h_fail, resid_frac, C_fail) and the optimum is reported as a range.",
+  "The GP surrogate is slower than the closed form (speedup_x = 0.0059); the physics is analytic. The surrogate is kept because the brief requires it for Sobol and MCMC; no speedup claim is made.",
+  "The 5 repeats per (condition, Position, RPM) cell are treated as repeated segments and stay in the same fold; some conditions miss positions for some RPMs (see partial_conditions), so position averaging is unbalanced.",
+  "Dataset is recorded bench data according to the user (COBEM 2025 setup, not in the data); features are not checked against a second acquisition chain.",
+  "Round 2 uses 100 RF trees per fit (round 1: 200) to keep 5 seeds within the runtime budget."
+ ],
+ "round": 2,
+ "mcmc": {
+  "tau_per_param": {
+   "k_over_m": 455.9311504507628,
+   "c_over_m": 228.42477122083426,
+   "e_over_m": 348.1262845212958,
+   "sigma_obs": 152.36008592451037,
+   "a_disc": 268.7501008836423
+  },
+  "n_steps": 12000,
+  "min_steps_over_tau": 23.029792962422125,
+  "ess_min": 736.953374797508,
+  "converged_50tau": false,
+  "per_stage": [
+   {
+    "frac": 0.25,
+    "tau": [
+     135.1624112290179,
+     150.31924646556146,
+     151.8262835323112,
+     208.53340100503397,
+     307.2860253550604
+    ],
+    "steps_over_tau": 34.1701188261573,
+    "ess_min": 1093.4438024370336,
+    "acceptance": 0.348265625
+   },
+   {
+    "frac": 0.5,
+    "tau": [
+     329.5270624579631,
+     293.79184751451635,
+     300.14585082902744,
+     269.99332577779785,
+     344.7786850702005
+    ],
+    "steps_over_tau": 30.454318827343087,
+    "ess_min": 974.5382024749788,
+    "acceptance": 0.2724791666666667
+   },
+   {
+    "frac": 0.75,
+    "tau": [
+     455.9311504507628,
+     228.42477122083426,
+     348.1262845212958,
+     152.36008592451037,
+     268.7501008836423
+    ],
+    "steps_over_tau": 23.029792962422125,
+    "ess_min": 736.953374797508,
+    "acceptance": 0.43444791666666666
+   }
+  ]
+ },
+ "interval_calibration": {
+  "coverage": {
+   "0.5": 0.0,
+   "0.8": 0.2857142857142857,
+   "0.95": 0.42857142857142855
+  },
+  "mean_width95": 0.11960250770727303,
+  "n_eval_points_in_range": 7,
+  "coverage_extrapolation_2700_3300": {
+   "0.5": 0.2222222222222222,
+   "0.8": 0.3333333333333333,
+   "0.95": 0.7777777777777778
+  }
+ },
+ "decision_checks": {
+  "optimum_interior": true,
+  "cost_sweep_range": [
+   1500.0,
+   2400.0
+  ],
+  "stressed_scenario_action_nontrivial": true
+ },
+ "identifiability": {
+  "max_rel_err_theta_vs_combo": 4.1041779918922367e-16,
+  "max_rel_change_under_m_rescaling": 5.376599941896109e-16
+ },
+ "cv_seeds": {
+  "n_seeds": 5,
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "n_trees": 100,
+  "pooled_rmse_mean": {
+   "physics": 0.1255117523465358,
+   "data_cond": 0.06935045841754842,
+   "data_full": 0.06733683714908696,
+   "hybrid": 0.05566122035855153
+  },
+  "pooled_rmse_sd": {
+   "physics": 0.0,
+   "data_cond": 0.00034322050821821744,
+   "data_full": 0.00029115059286011127,
+   "hybrid": 0.0007866670777334494
+  },
+  "hybrid_minus_data_full": {
+   "pooled_mean": -0.011675616790535427,
+   "pooled_sd": 0.0006811026133124436,
+   "groups_hybrid_better": 14,
+   "n_groups": 18,
+   "sign_test_p": 0.0308837890625,
+   "boot_ci95_group_mean": [
+    -0.012486923078486189,
+    -0.000951404276469035
+   ]
+  },
+  "hybrid_minus_physics": {
+   "pooled_mean": -0.06985053198798427,
+   "pooled_sd": 0.0007866670777334523,
+   "groups_hybrid_better": 18,
+   "n_groups": 18,
+   "sign_test_p": 7.62939453125e-06,
+   "boot_ci95_group_mean": [
+    -0.07323216081486393,
+    -0.03256462672267713
+   ]
+  }
+ },
+ "surrogate_length_scales": {
+  "names": [
+   "log(k/m)",
+   "log(c/m)",
+   "log(e/m)",
+   "RPM"
+  ],
+  "values": [
+   2.814354621962043,
+   10.961389206343117,
+   100.00000000000004,
+   9.928605067599738
+  ],
+  "at_upper_bound": [
+   false,
+   false,
+   true,
+   false
+  ]
+ },
+ "sobol_identifiable": {
+  "k_over_m": {
+   "S1": 0.18123957312168307,
+   "ST": 0.21942563282853245
+  },
+  "c_over_m": {
+   "S1": 0.10091658215308083,
+   "ST": 0.1391120830100956
+  },
+  "e_over_m": {
+   "S1": 0.6785026725819887,
+   "ST": 0.6782012368101856
+  }
+ },
+ "gp_sd_per_rpm": {
+  "rpm": [
+   300.0,
+   600.0,
+   900.0,
+   1200.0,
+   1500.0,
+   1800.0,
+   2100.0,
+   2400.0,
+   2700.0,
+   3000.0,
+   3300.0
+  ],
+  "sd_log_pilot_median_75pct": [
+   0.23180904992494897,
+   0.18906969199776777,
+   0.1823561860533562,
+   0.17994086601794923,
+   0.18189110702861824,
+   0.1848147182104559,
+   0.18923586967375242,
+   0.18700565812327916,
+   0.17662277540670895,
+   0.1857873963954117,
+   0.23508798692975277
+  ]
+ },
+ "axis_check_folds_z": 18
+}

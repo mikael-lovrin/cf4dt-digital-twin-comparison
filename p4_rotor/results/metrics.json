@@ -1,0 +1,1522 @@
+{
+ "project": "p4_rotor",
+ "n_rows": 5980,
+ "target": "Z Root Mean Squared (Z-axis RMS acceleration, chosen axis; per-Position observations)",
+ "target_unit": "g (assumed; accelerometer data units)",
+ "has_real_time_axis": false,
+ "has_unit_ids": true,
+ "data_synthetic_suspected": false,
+ "heldout_rmse": {
+  "physics": 0.108987,
+  "data_driven": 0.067337,
+  "hybrid": 0.056263
+ },
+ "heldout_nrmse": {
+  "physics": 0.676012,
+  "data_driven": 0.417668,
+  "hybrid": 0.348981
+ },
+ "surrogate": {
+  "r2": 1.0,
+  "rmse": 6.566428105058689e-17,
+  "coverage_2sigma": null,
+  "speedup_x": 0.9655291426928404
+ },
+ "sobol": {
+  "log_kA": {
+   "S1": 0.07385,
+   "ST": 0.240275
+  },
+  "log_kB": {
+   "S1": 0.171623,
+   "ST": 0.320446
+  },
+  "log_ks": {
+   "S1": 0.030417,
+   "ST": 0.129585
+  },
+  "log_cA": {
+   "S1": 0.01114,
+   "ST": 0.071985
+  },
+  "log_cB": {
+   "S1": 0.039558,
+   "ST": 0.085714
+  },
+  "log_kappaB": {
+   "S1": 0.422473,
+   "ST": 0.533763
+  },
+  "phi": {
+   "S1": 0.004812,
+   "ST": 0.004543
+  }
+ },
+ "calibration": {
+  "posterior_to_prior_std_ratio": {
+   "log_kA": 0.035381,
+   "log_kB": 0.360631,
+   "log_ks": 0.232943,
+   "log_cA": 0.620617,
+   "log_cB": 0.572288,
+   "log_e0": 0.225025,
+   "rho_p1": 1.153038,
+   "rho_p2": 0.4858,
+   "rho_p3": 0.723903,
+   "log_G_p2": 0.253793,
+   "log_G_p3": 0.346511,
+   "log_sigma_obs": 0.300127,
+   "log_a_disc": 0.692891
+  },
+  "mean_autocorr_time": 1734.3515844647834,
+  "acceptance_fraction": 0.022058238636363636,
+  "coverage95_heldout": 1.0
+ },
+ "risk": {
+  "description": "P(any Position RMS > 0.1028 g) at 2400 RPM (top of the calibrated range), no action, held-out experiment M0.0_U20.4_A1B0, posterior after 75% of the sweep (300-2400 RPM used, incl. the 2100/2400 resonance points IN-SAMPLE); limit = P99 of healthy Z RMS (all Positions). Values above 2400 RPM are extrapolations and are not part of this number.",
+  "value": 0.9999999999999989,
+  "value_fair_50pct_stage": 0.975659605509877
+ },
+ "decision": {
+  "description": "Expected-cost-per-hour optimum over speed setpoint (300-2400 RPM, 150 step) and rebalance option, M0.0_U20.4_A1B0, 75% posterior, baseline costs (assumptions); action=rebalance, derate factor=0.88. Single optimum is NOT robust: optimum over the 81-combination cost sweep spans 1350-2400 RPM; the rebalance-vs-continue boundary is reported in summary section 8 (function of resid_frac).",
+  "optimal_value": 2100.0,
+  "unit": "RPM (setpoint)",
+  "expected_cost": 2.4899542361181575,
+  "fair_50pct_stage": {
+   "optimal_value": 1950.0,
+   "action": "rebalance",
+   "expected_cost": 2.9846230181311393
+  },
+  "boundary_resid_frac_75pct": 0.4
+ },
+ "runtime_sec": 428.11,
+ "limitations": [
+  "Target is the Z-axis RMS (round-2 criterion, rechecked on the training rows of each LOGO fold: 18/18 folds). The axis criterion still uses the in-phase drive U*(TypeA+TypeB) as a regressor; it is a selection heuristic only.",
+  "No time axis: no wear trajectory, no RUL. The decision is a speed/rebalance choice at a fixed unbalance state.",
+  "Misalignment is not modelled physically. Misalignment groups are predicted by the unbalance response plus floor.",
+  "The 2-DOF masses are normalised (equal disc masses, mass ratio fixed to 1). Bearing and coupling stiffnesses and damping are per unit mass; e0 absorbs eccentricity and unit scale.",
+  "Position is not documented. It is treated as a sensor index with free output weights (rho_p, G_p) and floor scales (zeta_p); the model does not infer an axial location.",
+  "Fit quality: the 2-DOF training log-RMSE is 0.336 against a within-cell repeat noise of 0.008. The structural model error is therefore about 40 times the measurement noise; the 2-DOF is a partial description (see summary section 3).",
+  "Position-3 healthy floor (Normal reference) is higher than the unbalance runs at 300 RPM (floor 0.0275 g against 0.0110-0.0265 g); the per-Position floor scale zeta_3 = 0.550 is fitted, which is a calibration of the background, not a measurement.",
+  "A1B1 exists at Mis=0 only for U=13.6. In the LOGO fold for M0.0_U13.6 the disc phase phi is not identified from the training cells, so that fold keeps the full-data phi (flagged; leakage of one parameter).",
+  "Calibration uses one held-out experiment per stage (M0.0_U20.4_A1B0, plus a 50% replication on M0.0_U13.6_A1B0). kappa_B and phi are not informed by single-disc data and are fixed at the leave-group-out centre.",
+  "The discrepancy GP has a fixed correlation length of 500 RPM (assumption); the rebalanced scenario applies the same discrepancy (approximation).",
+  "Severity limit = P99 of healthy Z RMS (0.1028 g; percentile assumption). Decision costs are assumptions; sweeps are reported, not optimised.",
+  "P(any Position) assumes positions are conditionally independent given theta and their discrepancy terms.",
+  "Sobol indices are prior-box dependent (log-uniform boxes of the physical parameters).",
+  "Round 3 uses 100 RF trees and 5 CV seeds; the physics is deterministic."
+ ],
+ "round": 3,
+ "mcmc": {
+  "tau_per_param": {
+   "log_kA": 1482.4299181522072,
+   "log_kB": 2055.8832745060454,
+   "log_ks": 1489.3250686494537,
+   "log_cA": 1349.62715392222,
+   "log_cB": 1319.2630505658651,
+   "log_e0": 1800.1259730015886,
+   "rho_p1": 1981.7711870419196,
+   "rho_p2": 1587.5519673822166,
+   "rho_p3": 1976.8336471576188,
+   "log_G_p2": 1577.2592295864822,
+   "log_G_p3": 1869.7999855704168,
+   "log_sigma_obs": 2304.4403372567103,
+   "log_a_disc": 1752.2598052494393
+  },
+  "n_steps": 22000,
+  "min_steps_over_tau": 8.24495201408351,
+  "ess_min": 263.83846445067235,
+  "converged_50tau": false,
+  "per_stage": [
+   {
+    "run": "25%",
+    "n_rpm": 3,
+    "tau": [
+     260.03882635829274,
+     242.71273066176335,
+     270.5311340504981,
+     252.41110849221988,
+     243.33297801930513,
+     292.1389409088348,
+     237.2186219930573,
+     266.79887377216784,
+     277.34676550618116,
+     219.76994811185273,
+     321.7830694049803,
+     478.8724097691691,
+     602.3869196926082
+    ],
+    "steps_over_tau": 31.541189522666766,
+    "acceptance": 0.05950852272727273,
+    "map_logpost": 7.570132054220073
+   },
+   {
+    "run": "50%",
+    "n_rpm": 6,
+    "tau": [
+     1383.446282831724,
+     1525.3228444252525,
+     1129.6541730164865,
+     1147.469187335605,
+     1053.521386912324,
+     1238.3284637374206,
+     1179.6097404843329,
+     1182.7073350063642,
+     1263.7905586151323,
+     1308.8740445987935,
+     1225.974620287262,
+     1157.3375622365734,
+     1015.1038626131234
+    ],
+    "steps_over_tau": 12.456379362205956,
+    "acceptance": 0.020913352272727274,
+    "map_logpost": 15.116601302832553
+   },
+   {
+    "run": "75%",
+    "n_rpm": 8,
+    "tau": [
+     1482.4299181522072,
+     2055.8832745060454,
+     1489.3250686494537,
+     1349.62715392222,
+     1319.2630505658651,
+     1800.1259730015886,
+     1981.7711870419196,
+     1587.5519673822166,
+     1976.8336471576188,
+     1577.2592295864822,
+     1869.7999855704168,
+     2304.4403372567103,
+     1752.2598052494393
+    ],
+    "steps_over_tau": 8.24495201408351,
+    "acceptance": 0.022058238636363636,
+    "map_logpost": 10.86750415425426
+   }
+  ],
+  "replication_50pct": {
+   "cond": "M0.0_U13.6_A1B0",
+   "steps_over_tau": 15.12322256141378,
+   "acceptance": 0.021519886363636363
+  },
+  "sensitivity_a0": {
+   "steps_over_tau": 8.580684941703497,
+   "acceptance": 0.022048295454545456
+  },
+  "moves": "DEMove 0.8 + DESnookerMove 0.2; MAP initialisation (L-BFGS-B) then walkers in a 1e-3 ball"
+ },
+ "interval_calibration": {
+  "coverage": {
+   "0.5": 0.4,
+   "0.8": 0.9333333333333333,
+   "0.95": 1.0
+  },
+  "coverage_definition": "per-point out-of-sample coverage on the FAIR 50% stage (unused RPM 2100-3300, all Positions)",
+  "mean_width95": 0.892913182435528,
+  "coverage_by_stage": {
+   "main 25%": {
+    "n_unique_rpm": 8,
+    "n_unique_in_range": 5,
+    "cov_all": {
+     "0.5": 0.125,
+     "0.8": 0.8333333333333334,
+     "0.95": 1.0
+    },
+    "cov_in_range": {
+     "0.5": 0.2,
+     "0.8": 0.8,
+     "0.95": 1.0
+    },
+    "cov_extrap": {
+     "0.5": 0.0,
+     "0.8": 0.8888888888888888,
+     "0.95": 1.0
+    },
+    "r1like_position_mean": {
+     "0.5": 0.375,
+     "0.8": 0.75,
+     "0.95": 1.0
+    }
+   },
+   "main 50%": {
+    "n_unique_rpm": 5,
+    "n_unique_in_range": 2,
+    "cov_all": {
+     "0.5": 0.4,
+     "0.8": 0.9333333333333333,
+     "0.95": 1.0
+    },
+    "cov_in_range": {
+     "0.5": 0.5,
+     "0.8": 0.8333333333333334,
+     "0.95": 1.0
+    },
+    "cov_extrap": {
+     "0.5": 0.3333333333333333,
+     "0.8": 1.0,
+     "0.95": 1.0
+    },
+    "r1like_position_mean": {
+     "0.5": 0.8,
+     "0.8": 1.0,
+     "0.95": 1.0
+    }
+   },
+   "main 75%": {
+    "n_unique_rpm": 3,
+    "n_unique_in_range": 0,
+    "cov_all": {
+     "0.5": 0.2222222222222222,
+     "0.8": 0.5555555555555556,
+     "0.95": 0.7777777777777778
+    },
+    "cov_in_range": null,
+    "cov_extrap": {
+     "0.5": 0.2222222222222222,
+     "0.8": 0.5555555555555556,
+     "0.95": 0.7777777777777778
+    },
+    "r1like_position_mean": {
+     "0.5": 0.6666666666666666,
+     "0.8": 0.6666666666666666,
+     "0.95": 1.0
+    }
+   },
+   "replication M0.0_U13.6_A1B0 50%": {
+    "n_unique_rpm": 5,
+    "n_unique_in_range": 2,
+    "cov_all": {
+     "0.5": 0.4666666666666667,
+     "0.8": 0.8666666666666667,
+     "0.95": 1.0
+    },
+    "cov_in_range": {
+     "0.5": 0.3333333333333333,
+     "0.8": 0.8333333333333334,
+     "0.95": 1.0
+    },
+    "cov_extrap": {
+     "0.5": 0.5555555555555556,
+     "0.8": 0.8888888888888888,
+     "0.95": 1.0
+    },
+    "r1like_position_mean": {
+     "0.5": 0.8,
+     "0.8": 0.8,
+     "0.95": 1.0
+    }
+   }
+  },
+  "per_point_table": [
+   {
+    "stage": "main 25%",
+    "rpm": 1200.0,
+    "pos": 1,
+    "in_range": true,
+    "obs": 0.029833724417556835,
+    "lo50": 0.028990184616815698,
+    "hi50": 0.03624665421951651,
+    "lo95": 0.02297612156264028,
+    "hi95": 0.05682913093649691,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 1500.0,
+    "pos": 1,
+    "in_range": true,
+    "obs": 0.03589687261505249,
+    "lo50": 0.03127052252010283,
+    "hi50": 0.04344987265944535,
+    "lo95": 0.02428073050045564,
+    "hi95": 0.16127108492179168,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 1800.0,
+    "pos": 1,
+    "in_range": true,
+    "obs": 0.05396750076033121,
+    "lo50": 0.03528158257053174,
+    "hi50": 0.051683535867425155,
+    "lo95": 0.02569268902973427,
+    "hi95": 0.34790983986469004,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 2100.0,
+    "pos": 1,
+    "in_range": true,
+    "obs": 0.11290397163209427,
+    "lo50": 0.033760392956965354,
+    "hi50": 0.05796895896795341,
+    "lo95": 0.023769277128367832,
+    "hi95": 0.7234202377674137,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 2400.0,
+    "pos": 1,
+    "in_range": true,
+    "obs": 0.8112122142188258,
+    "lo50": 0.039393156287967176,
+    "hi50": 0.072886948777179,
+    "lo95": 0.027688559813505056,
+    "hi95": 1.201434913364584,
+    "hit50": false,
+    "hit80": false,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 2700.0,
+    "pos": 1,
+    "in_range": false,
+    "obs": 0.5693868331872644,
+    "lo50": 0.04880909741066644,
+    "hi50": 0.10693247548399148,
+    "lo95": 0.03511628917178405,
+    "hi95": 2.1153661450568793,
+    "hit50": false,
+    "hit80": false,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 3000.0,
+    "pos": 1,
+    "in_range": false,
+    "obs": 0.38609521593993357,
+    "lo50": 0.05619026733537016,
+    "hi50": 0.13146102653250893,
+    "lo95": 0.038065174251092584,
+    "hi95": 3.5154432563955575,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 3300.0,
+    "pos": 1,
+    "in_range": false,
+    "obs": 0.5628000827580107,
+    "lo50": 0.05164689086322052,
+    "hi50": 0.16428501451359406,
+    "lo95": 0.03495562376444917,
+    "hi95": 6.010751063777958,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 1200.0,
+    "pos": 2,
+    "in_range": true,
+    "obs": 0.028688755341236032,
+    "lo50": 0.02346926170610546,
+    "hi50": 0.028119539350664212,
+    "lo95": 0.018773731322082116,
+    "hi95": 0.04641869077779701,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 1500.0,
+    "pos": 2,
+    "in_range": true,
+    "obs": 0.03560669066244823,
+    "lo50": 0.024454573636219654,
+    "hi50": 0.03423270913999758,
+    "lo95": 0.01878324613601931,
+    "hi95": 0.13641743773568116,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 1800.0,
+    "pos": 2,
+    "in_range": true,
+    "obs": 0.05454508108670717,
+    "lo50": 0.028157138628490983,
+    "hi50": 0.0423758897123665,
+    "lo95": 0.020672183000150262,
+    "hi95": 0.30697940799100687,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 2100.0,
+    "pos": 2,
+    "in_range": true,
+    "obs": 0.11135908434867496,
+    "lo50": 0.02999512569876494,
+    "hi50": 0.052255418112732065,
+    "lo95": 0.020632390298875043,
+    "hi95": 0.639768379976669,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 2400.0,
+    "pos": 2,
+    "in_range": true,
+    "obs": 0.6495443437134734,
+    "lo50": 0.03969540141610678,
+    "hi50": 0.0731043712166881,
+    "lo95": 0.027235229176870546,
+    "hi95": 1.0830402270287003,
+    "hit50": false,
+    "hit80": false,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 2700.0,
+    "pos": 2,
+    "in_range": false,
+    "obs": 0.39826785944123344,
+    "lo50": 0.05118330060710667,
+    "hi50": 0.11163397683594573,
+    "lo95": 0.035744190649167104,
+    "hi95": 1.7220329486580142,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 3000.0,
+    "pos": 2,
+    "in_range": false,
+    "obs": 0.1969149249388525,
+    "lo50": 0.059588991608854114,
+    "hi50": 0.14669612558505646,
+    "lo95": 0.041756845709227865,
+    "hi95": 2.950248467309133,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 3300.0,
+    "pos": 2,
+    "in_range": false,
+    "obs": 0.5406782988625087,
+    "lo50": 0.09476391024208487,
+    "hi50": 0.23386514255449756,
+    "lo95": 0.06463713862052357,
+    "hi95": 5.131615131300202,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 1200.0,
+    "pos": 3,
+    "in_range": true,
+    "obs": 0.02420531126585209,
+    "lo50": 0.021088518896811,
+    "hi50": 0.028531989014723133,
+    "lo95": 0.01508036371435318,
+    "hi95": 0.05090255761253417,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 1500.0,
+    "pos": 3,
+    "in_range": true,
+    "obs": 0.04509512498766548,
+    "lo50": 0.021193771882412824,
+    "hi50": 0.03518411606838333,
+    "lo95": 0.015520784003772365,
+    "hi95": 0.1542355282531859,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 1800.0,
+    "pos": 3,
+    "in_range": true,
+    "obs": 0.13334643420879239,
+    "lo50": 0.02100736703570151,
+    "hi50": 0.04658877631165358,
+    "lo95": 0.015609315962426007,
+    "hi95": 0.3502987157129966,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 2100.0,
+    "pos": 3,
+    "in_range": true,
+    "obs": 0.7532230122277219,
+    "lo50": 0.0204830103777487,
+    "hi50": 0.07291325132503029,
+    "lo95": 0.014847945564468992,
+    "hi95": 0.8221844057414058,
+    "hit50": false,
+    "hit80": false,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 2400.0,
+    "pos": 3,
+    "in_range": true,
+    "obs": 0.5435601521469057,
+    "lo50": 0.021532227723639698,
+    "hi50": 0.11263981386699501,
+    "lo95": 0.015097299148106333,
+    "hi95": 1.230946930552378,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 2700.0,
+    "pos": 3,
+    "in_range": false,
+    "obs": 0.41199544670854776,
+    "lo50": 0.028198407904279094,
+    "hi50": 0.18723700483167038,
+    "lo95": 0.018569432831050944,
+    "hi95": 2.593109388843779,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 3000.0,
+    "pos": 3,
+    "in_range": false,
+    "obs": 0.37268651042490863,
+    "lo50": 0.02853514711547046,
+    "hi50": 0.24094236740214697,
+    "lo95": 0.01982653604688932,
+    "hi95": 4.1139159568737105,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 25%",
+    "rpm": 3300.0,
+    "pos": 3,
+    "in_range": false,
+    "obs": 0.40566904791108505,
+    "lo50": 0.02784133689554457,
+    "hi50": 0.3409583752885644,
+    "lo95": 0.019234436795971463,
+    "hi95": 6.636812488710523,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 2100.0,
+    "pos": 1,
+    "in_range": true,
+    "obs": 0.11290397163209427,
+    "lo50": 0.07365461015673117,
+    "hi50": 0.1631908976526198,
+    "lo95": 0.04505199912099985,
+    "hi95": 0.5873958948036638,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 2400.0,
+    "pos": 1,
+    "in_range": true,
+    "obs": 0.8112122142188258,
+    "lo50": 0.0944846985270267,
+    "hi50": 0.3252658082342451,
+    "lo95": 0.04377833812681221,
+    "hi95": 2.181496150250684,
+    "hit50": false,
+    "hit80": false,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 2700.0,
+    "pos": 1,
+    "in_range": false,
+    "obs": 0.5693868331872644,
+    "lo50": 0.09336645221287704,
+    "hi50": 0.3210060629974823,
+    "lo95": 0.04882528670169701,
+    "hi95": 1.7920887408069999,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 3000.0,
+    "pos": 1,
+    "in_range": false,
+    "obs": 0.38609521593993357,
+    "lo50": 0.09691224534117553,
+    "hi50": 0.3357227888884074,
+    "lo95": 0.05072189255394035,
+    "hi95": 1.7556267976076656,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 3300.0,
+    "pos": 1,
+    "in_range": false,
+    "obs": 0.5628000827580107,
+    "lo50": 0.09399722053231108,
+    "hi50": 0.4024482106092083,
+    "lo95": 0.04996916512209698,
+    "hi95": 2.784353590658045,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 2100.0,
+    "pos": 2,
+    "in_range": true,
+    "obs": 0.11135908434867496,
+    "lo50": 0.08503746093205684,
+    "hi50": 0.16827429234362168,
+    "lo95": 0.04574872005829191,
+    "hi95": 0.531800821286316,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 2400.0,
+    "pos": 2,
+    "in_range": true,
+    "obs": 0.6495443437134734,
+    "lo50": 0.10542583284068435,
+    "hi50": 0.3346358576054934,
+    "lo95": 0.047147228421601274,
+    "hi95": 2.3585390352227904,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 2700.0,
+    "pos": 2,
+    "in_range": false,
+    "obs": 0.39826785944123344,
+    "lo50": 0.09750116696726607,
+    "hi50": 0.344005936496775,
+    "lo95": 0.05092997446924806,
+    "hi95": 2.081525584807621,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 3000.0,
+    "pos": 2,
+    "in_range": false,
+    "obs": 0.1969149249388525,
+    "lo50": 0.0931849665924804,
+    "hi50": 0.3916910822152732,
+    "lo95": 0.04998973630992689,
+    "hi95": 2.6588023498555056,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 3300.0,
+    "pos": 2,
+    "in_range": false,
+    "obs": 0.5406782988625087,
+    "lo50": 0.12847560185764217,
+    "hi50": 0.5006241962754828,
+    "lo95": 0.07686767057767235,
+    "hi95": 2.86562137302381,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 2100.0,
+    "pos": 3,
+    "in_range": true,
+    "obs": 0.7532230122277219,
+    "lo50": 0.28381088344810684,
+    "hi50": 0.6319712504337449,
+    "lo95": 0.11601574900405616,
+    "hi95": 2.1381399589622085,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 2400.0,
+    "pos": 3,
+    "in_range": true,
+    "obs": 0.5435601521469057,
+    "lo50": 0.4003882501496103,
+    "hi50": 1.4627295691066273,
+    "lo95": 0.09531553965979409,
+    "hi95": 9.517847114411246,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 2700.0,
+    "pos": 3,
+    "in_range": false,
+    "obs": 0.41199544670854776,
+    "lo50": 0.3988357907012161,
+    "hi50": 1.3341492220670743,
+    "lo95": 0.08889222279595525,
+    "hi95": 10.859556505434321,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 3000.0,
+    "pos": 3,
+    "in_range": false,
+    "obs": 0.37268651042490863,
+    "lo50": 0.3784630936753087,
+    "hi50": 1.4789410367704536,
+    "lo95": 0.09398083683472572,
+    "hi95": 10.649171454576658,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 50%",
+    "rpm": 3300.0,
+    "pos": 3,
+    "in_range": false,
+    "obs": 0.40566904791108505,
+    "lo50": 0.39742275627170875,
+    "hi50": 1.7091272506238586,
+    "lo95": 0.07354524838072367,
+    "hi95": 12.484881895756928,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 75%",
+    "rpm": 2700.0,
+    "pos": 1,
+    "in_range": false,
+    "obs": 0.5693868331872644,
+    "lo50": 0.0723336443236205,
+    "hi50": 0.2754869410166457,
+    "lo95": 0.04692056372836259,
+    "hi95": 0.7435251715350917,
+    "hit50": false,
+    "hit80": false,
+    "hit95": true
+   },
+   {
+    "stage": "main 75%",
+    "rpm": 3000.0,
+    "pos": 1,
+    "in_range": false,
+    "obs": 0.38609521593993357,
+    "lo50": 0.07799148196971409,
+    "hi50": 0.2119384617563183,
+    "lo95": 0.05310362514618286,
+    "hi95": 0.4750574764259902,
+    "hit50": false,
+    "hit80": false,
+    "hit95": true
+   },
+   {
+    "stage": "main 75%",
+    "rpm": 3300.0,
+    "pos": 1,
+    "in_range": false,
+    "obs": 0.5628000827580107,
+    "lo50": 0.07180126446222444,
+    "hi50": 0.20205107118511173,
+    "lo95": 0.04465139118543162,
+    "hi95": 0.4291798755492572,
+    "hit50": false,
+    "hit80": false,
+    "hit95": false
+   },
+   {
+    "stage": "main 75%",
+    "rpm": 2700.0,
+    "pos": 2,
+    "in_range": false,
+    "obs": 0.39826785944123344,
+    "lo50": 0.16645749106869512,
+    "hi50": 0.28464759447666804,
+    "lo95": 0.0959694996699389,
+    "hi95": 1.5138738038058137,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 75%",
+    "rpm": 3000.0,
+    "pos": 2,
+    "in_range": false,
+    "obs": 0.1969149249388525,
+    "lo50": 0.13291613181131323,
+    "hi50": 0.22577242669624606,
+    "lo95": 0.08169667564702618,
+    "hi95": 0.5586997739253392,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 75%",
+    "rpm": 3300.0,
+    "pos": 2,
+    "in_range": false,
+    "obs": 0.5406782988625087,
+    "lo50": 0.14331436279095278,
+    "hi50": 0.22648056664275035,
+    "lo95": 0.088942504263346,
+    "hi95": 0.4512834661950571,
+    "hit50": false,
+    "hit80": false,
+    "hit95": false
+   },
+   {
+    "stage": "main 75%",
+    "rpm": 2700.0,
+    "pos": 3,
+    "in_range": false,
+    "obs": 0.41199544670854776,
+    "lo50": 0.4481518891317489,
+    "hi50": 1.0320535150007542,
+    "lo95": 0.28594442644114076,
+    "hi95": 3.8308387932875694,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 75%",
+    "rpm": 3000.0,
+    "pos": 3,
+    "in_range": false,
+    "obs": 0.37268651042490863,
+    "lo50": 0.3964910679924431,
+    "hi50": 0.7410885634565405,
+    "lo95": 0.25385562589971444,
+    "hi95": 2.149520006425588,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "main 75%",
+    "rpm": 3300.0,
+    "pos": 3,
+    "in_range": false,
+    "obs": 0.40566904791108505,
+    "lo50": 0.3887482539988209,
+    "hi50": 0.6984364777337716,
+    "lo95": 0.2625093782725611,
+    "hi95": 1.6026904732044553,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 2100.0,
+    "pos": 1,
+    "in_range": true,
+    "obs": 0.07591344819188839,
+    "lo50": 0.04283628833918451,
+    "hi50": 0.07355233889572613,
+    "lo95": 0.035890328037650805,
+    "hi95": 0.20327758069549173,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 2400.0,
+    "pos": 1,
+    "in_range": true,
+    "obs": 0.20956397456033424,
+    "lo50": 0.04860285383699079,
+    "hi50": 0.14380232549710165,
+    "lo95": 0.038286033480230006,
+    "hi95": 1.0157340575302547,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 2700.0,
+    "pos": 1,
+    "in_range": false,
+    "obs": 0.5846253630419931,
+    "lo50": 0.05869962962754978,
+    "hi50": 0.17947363821335824,
+    "lo95": 0.045740304418950564,
+    "hi95": 1.2260707987698725,
+    "hit50": false,
+    "hit80": false,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 3000.0,
+    "pos": 1,
+    "in_range": false,
+    "obs": 0.3688928028571025,
+    "lo50": 0.06404202860725636,
+    "hi50": 0.1819797265864455,
+    "lo95": 0.049520896176563634,
+    "hi95": 1.0943792753229902,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 3300.0,
+    "pos": 1,
+    "in_range": false,
+    "obs": 0.2615017754802809,
+    "lo50": 0.06086901245905661,
+    "hi50": 0.1838504929668633,
+    "lo95": 0.04594571741609589,
+    "hi95": 1.4463031542059919,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 2100.0,
+    "pos": 2,
+    "in_range": true,
+    "obs": 0.08492377699140494,
+    "lo50": 0.06099124720172079,
+    "hi50": 0.11525074128320512,
+    "lo95": 0.03724890515395464,
+    "hi95": 0.3628897253528673,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 2400.0,
+    "pos": 2,
+    "in_range": true,
+    "obs": 0.3365818502971254,
+    "lo50": 0.08063693981646886,
+    "hi50": 0.3004831707776979,
+    "lo95": 0.045475631151144565,
+    "hi95": 1.7189046404997421,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 2700.0,
+    "pos": 2,
+    "in_range": false,
+    "obs": 0.3502418219858975,
+    "lo50": 0.08618773265084075,
+    "hi50": 0.37509792098853856,
+    "lo95": 0.055263814714569544,
+    "hi95": 2.265896264177134,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 3000.0,
+    "pos": 2,
+    "in_range": false,
+    "obs": 0.14296295020037614,
+    "lo50": 0.09191413985563177,
+    "hi50": 0.42937801102358236,
+    "lo95": 0.06077790939336622,
+    "hi95": 2.451121732639806,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 3300.0,
+    "pos": 2,
+    "in_range": false,
+    "obs": 0.8199290477233099,
+    "lo50": 0.13073484167998045,
+    "hi50": 0.43685230059335806,
+    "lo95": 0.0941077525962333,
+    "hi95": 3.614920199802531,
+    "hit50": false,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 2100.0,
+    "pos": 3,
+    "in_range": true,
+    "obs": 0.648832244511208,
+    "lo50": 0.15416444037831237,
+    "hi50": 0.2733768889288754,
+    "lo95": 0.04520949857636546,
+    "hi95": 0.8108564075871397,
+    "hit50": false,
+    "hit80": false,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 2400.0,
+    "pos": 3,
+    "in_range": true,
+    "obs": 0.4322458655251837,
+    "lo50": 0.22291719572727436,
+    "hi50": 0.8049565762338607,
+    "lo95": 0.04107276376598643,
+    "hi95": 4.66849803833056,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 2700.0,
+    "pos": 3,
+    "in_range": false,
+    "obs": 0.31832290337188857,
+    "lo50": 0.1970697327385016,
+    "hi50": 1.0007768219298196,
+    "lo95": 0.04623835343955482,
+    "hi95": 6.263895071490159,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 3000.0,
+    "pos": 3,
+    "in_range": false,
+    "obs": 0.2756495679899945,
+    "lo50": 0.2182118338594753,
+    "hi50": 1.080780938676558,
+    "lo95": 0.04581012304169641,
+    "hi95": 6.814227475108171,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   },
+   {
+    "stage": "replication M0.0_U13.6_A1B0 50%",
+    "rpm": 3300.0,
+    "pos": 3,
+    "in_range": false,
+    "obs": 0.28625377445795774,
+    "lo50": 0.2298510111890213,
+    "hi50": 1.174248576836268,
+    "lo95": 0.04986896203988793,
+    "hi95": 8.97603544706612,
+    "hit50": true,
+    "hit80": true,
+    "hit95": true
+   }
+  ],
+  "replication": {
+   "n_unique_rpm": 5,
+   "n_unique_in_range": 2,
+   "n_unique_extrap": 3,
+   "rpm_unused": [
+    2100.0,
+    2400.0,
+    2700.0,
+    3000.0,
+    3300.0
+   ],
+   "cov_all": {
+    "0.5": 0.4666666666666667,
+    "0.8": 0.8666666666666667,
+    "0.95": 1.0
+   },
+   "cov_in_range": {
+    "0.5": 0.3333333333333333,
+    "0.8": 0.8333333333333334,
+    "0.95": 1.0
+   },
+   "cov_extrap": {
+    "0.5": 0.5555555555555556,
+    "0.8": 0.8888888888888888,
+    "0.95": 1.0
+   },
+   "r1like_position_mean": {
+    "0.5": 0.8,
+    "0.8": 0.8,
+    "0.95": 1.0
+   },
+   "resonance_hits95": {
+    "P1@2100": true,
+    "P1@2400": true,
+    "P2@2100": true,
+    "P2@2400": true,
+    "P3@2100": true,
+    "P3@2400": true
+   }
+  }
+ },
+ "decision_checks": {
+  "optimum_interior": true,
+  "cost_sweep_range": [
+   1350.0,
+   2400.0
+  ],
+  "stressed_scenario_action_nontrivial": true,
+  "boundary": {
+   "0.75": {
+    "rebalance_max_resid": 0.4,
+    "continue_min_resid": 0.45,
+    "rebalance_at_all": true,
+    "continue_at_all": true
+   },
+   "0.5": {
+    "rebalance_max_resid": 0.55,
+    "continue_min_resid": 0.6,
+    "rebalance_at_all": true,
+    "continue_at_all": true
+   }
+  },
+  "saturation_p_ge_0.99": {
+   "25%": {
+    "fraction_of_grid": 0.0,
+    "from_rpm": null
+   },
+   "50%": {
+    "fraction_of_grid": 0.0,
+    "from_rpm": null
+   },
+   "75%": {
+    "fraction_of_grid": 0.26666666666666666,
+    "from_rpm": 1950.0
+   }
+  }
+ },
+ "identifiability": {
+  "max_rel_err_theta_vs_combo": 2.700922256286659e-15,
+  "max_rel_change_under_m_rescaling": null,
+  "note": "round 3: masses normalised (mass ratio fixed to 1), so the round-2 m/e identifiability test does not apply; max_rel_err_theta_vs_combo now holds the closed-form vs 4x4 solve maximum relative error"
+ },
+ "cv_seeds": {
+  "n_seeds": 5,
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "n_trees": 100,
+  "pooled_rmse_mean": {
+   "physics2": 0.10898728672865995,
+   "physics1": 0.15042298494309045,
+   "data_cond": 0.06935045841754842,
+   "data_full": 0.06733683714908696,
+   "hybrid": 0.056263063630538145
+  },
+  "pooled_rmse_sd": {
+   "physics2": 1.5515838457795457e-17,
+   "physics1": 0.0,
+   "data_cond": 0.0003432205082182128,
+   "data_full": 0.00029115059286010595,
+   "hybrid": 0.0006297600662620972
+  },
+  "per_position_rmse_mean": {
+   "physics2": {
+    "1": 0.10602165602135027,
+    "2": 0.08891113147717193,
+    "3": 0.12959056700995758
+   },
+   "physics1": {
+    "1": 0.14212526376435272,
+    "2": 0.14901834577895046,
+    "3": 0.15971046932297078
+   },
+   "data_cond": {
+    "1": 0.058344225392872574,
+    "2": 0.058929799253778656,
+    "3": 0.08748624878969047
+   },
+   "data_full": {
+    "1": 0.06579550342709863,
+    "2": 0.0525593657001757,
+    "3": 0.08152582926102517
+   },
+   "hybrid": {
+    "1": 0.05310260790721659,
+    "2": 0.04268560392855811,
+    "3": 0.0704068352611167
+   }
+  },
+  "a1b1_rmse_mean": {
+   "physics2": 0.12023928521224789,
+   "physics1": 0.33819549487273287,
+   "data_cond": 0.01621274089876511,
+   "data_full": 0.022211693030191028,
+   "hybrid": 0.013986316438590843
+  },
+  "a1b1_m0_rmse_mean": {
+   "physics2": 0.2380535148158373,
+   "physics1": 0.3361667345540129,
+   "data_cond": 0.02136628823973909,
+   "data_full": 0.02556769622804999,
+   "hybrid": 0.02049241364746311
+  },
+  "hybrid_minus_data_full": {
+   "pooled_mean": -0.011073773518548807,
+   "pooled_sd": 0.0006370339337836516,
+   "groups_hybrid_better": 15,
+   "n_groups": 18,
+   "sign_test_p": 0.007537841796875,
+   "boot_ci95_group_mean": [
+    -0.01367992688251027,
+    -0.0003451578322989809
+   ]
+  },
+  "hybrid_minus_physics2": {
+   "pooled_mean": -0.05272422309812182,
+   "groups_hybrid_better": 18,
+   "n_groups": 18,
+   "sign_test_p": 7.62939453125e-06
+  },
+  "physics2_minus_physics1": {
+   "pooled_mean": -0.04143569821443048,
+   "groups_2dof_better": 7,
+   "n_groups": 18,
+   "sign_test_p": 0.480682373046875
+  }
+ },
+ "surrogate_length_scales": null,
+ "sobol_identifiable": null,
+ "gp_sd_per_rpm": null,
+ "axis_check_folds_z": 18,
+ "physics_2dof": {
+  "training_log_rmse": 0.3361837286717988,
+  "within_cell_log_sd_median": 0.00843486754481146,
+  "theta": {
+   "log_kA": 11.965458738995611,
+   "log_kB": 9.210340371976185,
+   "log_ks": 11.041222066083618,
+   "log_cA": 6.803295511203903,
+   "log_cB": -2.3025835970634367,
+   "log_e0": -12.715448055070246,
+   "log_kappaB": -1.5872445946945073,
+   "phi": 1.9697673129987796,
+   "rho_p1": -1.5270724784147998,
+   "rho_p2": -5.1089355735594415,
+   "rho_p3": 5.9999999880934975,
+   "log_G_p2": -1.2895318940628426,
+   "log_G_p3": -1.1374790064996199,
+   "log_zeta_p1": 0.0011426866770380378,
+   "log_zeta_p2": -0.005473676302197965,
+   "log_zeta_p3": -0.5985666174509047
+  },
+  "fold_centre_M0.0_U20.4": {
+   "log_kA": 11.983273777051668,
+   "log_kB": 9.210340373170924,
+   "log_ks": 11.060429229194177,
+   "log_cA": 6.907755278908944,
+   "log_cB": -2.302585092994045,
+   "log_e0": -12.741026464771002,
+   "log_kappaB": -1.6661934107108785,
+   "phi": 1.9482625895436945,
+   "rho_p1": -1.693939113560683,
+   "rho_p2": -5.999999999995371,
+   "rho_p3": 5.999999999999999,
+   "log_G_p2": -1.3505429934927602,
+   "log_G_p3": -0.9937766333819253,
+   "log_zeta_p1": -0.0005695488824587627,
+   "log_zeta_p2": -0.05065200127053885,
+   "log_zeta_p3": -0.6975971988918654
+  },
+  "ablation_1dof": {
+   "training_log_rmse": 0.4053105562278631,
+   "k": 197910.9938603447,
+   "c": 157.6228452372099,
+   "e": 0.0033790994514861345
+  },
+  "fold_refits": {
+   "M0.0_U13.6": {
+    "rmse2": 0.3388408824055482,
+    "rmse1": 0.386709597117134,
+    "refit": true
+   },
+   "M0.0_U20.4": {
+    "rmse2": 0.3091003994217739,
+    "rmse1": 0.4099797490371762,
+    "refit": true
+   },
+   "M0.0_U6.8": {
+    "rmse2": 0.3468932896131948,
+    "rmse1": 0.41498788658135394,
+    "refit": true
+   }
+  }
+ },
+ "criteria_r3": {
+  "C1": {
+   "text": "2-DOF pooled held-out RMSE < 1-DOF ablation pooled RMSE",
+   "value": [
+    0.10898728672865995,
+    0.15042298494309045
+   ],
+   "pass": true
+  },
+  "C2": {
+   "text": "A1B1 held-out RMSE (2-DOF) <= 0.5 x 1-DOF ablation",
+   "value": [
+    0.12023928521224789,
+    0.33819549487273287
+   ],
+   "pass": true
+  },
+  "C3": {
+   "text": "2-DOF training log-RMSE <= 0.05",
+   "value": 0.3361837286717988,
+   "pass": false
+  },
+  "C4": {
+   "text": "min steps/tau over all calibration runs >= 50",
+   "value": 8.24495201408351,
+   "pass": false
+  },
+  "C5": {
+   "text": "fair 50% stage per-point 95% coverage within 0.95 +- 0.05",
+   "value": 1.0,
+   "pass": false
+  },
+  "C6": {
+   "text": "identifiable physics parameters at 75% (ratio < 0.5) >= 4 of 11",
+   "value": 7,
+   "pass": true
+  },
+  "C7": {
+   "text": "75% baseline optimum strictly inside (300, 2400)",
+   "value": 2100.0,
+   "pass": true
+  },
+  "C8": {
+   "text": "stressed scenario action non-trivial",
+   "value": "rebalance",
+   "pass": true
+  }
+ },
+ "criteria_r3_passed": 5,
+ "changes_r3": [
+  "Physics: 2-DOF lumped rotor (two disc coordinates, bearing springs kA/kB, coupling ks, damping cA/cB) in closed form; per-disc unbalance with relative amplitude kB_rel and phase phi (no in-phase sum); per-Position output weights (rho_p, G_p) and per-Position healthy-floor scales zeta_p. Replaces the single-DOF Ueff = U*(A+B) as primary.",
+  "Single-DOF Jeffcott kept as ablation row; fitted without A1B1 (round-2 review item 1).",
+  "Calibration and CV at Position level (no averaging over Positions 1-3).",
+  "Coverage: per-point table (position, RPM, stage, in-range flag); round-1 definition kept under calibration.coverage95_heldout; no pooling across stages.",
+  "Sequential stages are labelled (resonance in-sample at 75%, out-of-sample at 50%); 50% replication on M0.0_U13.6_A1B0 added.",
+  "MCMC: closed-form likelihood (no GP emulator variance), MAP initialisation, DEMove/DESnookerMove mixture, 22000 steps; non-finite tau counted as not converged.",
+  "GP surrogate retired (closed form is faster than the emulator; round-2 speedup 0.0059x). 'surrogate' block now holds the closed-form vs independent 4x4 solve check; coverage_2sigma null.",
+  "Decision: calibrated range only; P(any Position) risk; rebalance-vs-continue boundary over resid_frac reported; single optimum no longer the headline; P>=0.99 saturation reported.",
+  "Summary section 0 rewritten to state failures; section 5 sentence repaired; the typed 132% replaced by a computed ratio; all summary numbers generated from variables.",
+  "Pre-registered criteria C1-C8 are written in main.py before the run and evaluated in metrics.criteria_r3."
+ ],
+ "r2_vs_r3": {
+  "heldout_nrmse": {
+   "r2": {
+    "physics": 0.778508,
+    "data_driven": 0.417668,
+    "hybrid": 0.345248
+   },
+   "r3": {
+    "physics": 0.676012,
+    "data_driven": 0.417668,
+    "hybrid": 0.348981
+   }
+  },
+  "coverage95": [
+   0.75,
+   1.0
+  ],
+  "coverage95_definition": "[r2 25%-stage like-for-like (3/5 in-range + 3/3 extrapolated, from run_r2.log), r3 25%-stage r1-definition on the same 8-point set]",
+  "coverage95_fair_50pct_inrange": [
+   0.0,
+   1.0
+  ],
+  "min_steps_over_tau": [
+   23.029792962422125,
+   8.24495201408351
+  ]
+ },
+ "runtime_breakdown_note": "see run.log"
+}

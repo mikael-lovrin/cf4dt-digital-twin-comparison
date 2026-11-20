@@ -1,0 +1,66 @@
+usable cases: [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+setting folds (primary): [[3, 4, 10, 11], [7, 13, 15], [1, 2, 9, 12], [5, 8, 14, 16]]
+case folds (secondary): [[1, 7, 12], [2, 8, 13], [3, 9, 14], [4, 10, 15], [5, 11, 16]]
+transient rows masked: ['row_0', 'row_1', 'row_2', 'row_3', 'row_4', 'row_5']
+quick mode: False results dir: C:\Users\mikae\Documents\RWTH\02_WS2627\02_DigitalTwins\04_Project\p2_nasa\results
+fold 0: test=[3, 4, 10, 11] box lo=[-2.98 -2.92  0.    0.   -4.  ] hi=[ -1.92  -1.66 223.37   5.     0.  ] physics train RMSE=0.1101 nfev=14 converged=True at_bound=True p6=[-2.467 -2.27   2.713  2.783 -2.464  0.999]
+fold 1: test=[7, 13, 15] box lo=[-2.88 -2.98  0.    0.   -3.59] hi=[ -1.86  -1.77 229.99   1.32   0.  ] physics train RMSE=0.0823 nfev=15 converged=True at_bound=True p6=[-2.374 -2.369  0.105  0.017 -1.057  0.852]
+fold 2: test=[1, 2, 9, 12] box lo=[-2.95 -2.99  0.    0.   -4.  ] hi=[ -1.76  -1.68 342.98   5.     0.  ] physics train RMSE=0.1133 nfev=13 converged=True at_bound=True p6=[-2.261 -2.385 28.168  4.999 -3.998  0.81 ]
+fold 3: test=[5, 8, 14, 16] box lo=[-2.93 -3.01  0.    0.19 -4.  ] hi=[ -1.9   -1.8  403.53   5.    -3.16] physics train RMSE=0.0807 nfev=10 converged=True at_bound=True p6=[ -2.432  -2.407 203.528   5.     -4.      1.   ]
+setting-grouped held-out RMSE: {'physics': 0.145366321787164, 'data_driven': 0.22629815209136178, 'hybrid': 0.13060354421432938, 'constant_mean': 0.2671130274905884, 'time_power_law': 0.24589412025366003, 'log_linear_qn': 0.335554418621002} nRMSE: {'physics': 0.5612497076189065, 'data_driven': 0.8737221258300472, 'hybrid': 0.5042516045195681, 'constant_mean': 1.0313056472584663, 'time_power_law': 0.9493808565895844, 'log_linear_qn': 1.295553309913213} converged folds: [0, 1, 2, 3] t=99s
+fold 0: test=[1, 7, 12] box lo=[-2.87 -2.96  0.    0.   -4.  ] hi=[ -1.83  -1.75 270.     5.     0.  ] physics train RMSE=0.1108 nfev=12 converged=True at_bound=False p6=[-2.342 -2.351 15.468  0.676 -2.097  0.894]
+fold 1: test=[2, 8, 13] box lo=[-2.87 -2.97  0.    0.   -4.  ] hi=[ -1.86  -1.76 232.8    5.     0.  ] physics train RMSE=0.0791 nfev=473 converged=True at_bound=False p6=[-2.365 -2.358  1.107  1.839 -2.787  0.841]
+fold 2: test=[3, 9, 14] box lo=[-2.97 -2.88  0.    0.   -4.  ] hi=[ -1.96  -1.68 200.43   5.     0.  ] physics train RMSE=0.1026 nfev=15 converged=True at_bound=True p6=[-2.463 -2.282  0.021  4.991 -2.706  1.   ]
+fold 3: test=[4, 10, 15] box lo=[-2.96 -2.93  0.    0.   -4.  ] hi=[ -1.95  -1.73 230.62   5.     0.  ] physics train RMSE=0.1005 nfev=441 converged=True at_bound=True p6=[-2.447 -2.33   0.893  0.351 -3.893  1.   ]
+fold 4: test=[5, 11, 16] box lo=[-2.95 -2.98  0.    3.82 -4.  ] hi=[-1.9100e+00 -1.7600e+00  4.0073e+02  5.0000e+00 -3.2000e-01] physics train RMSE=0.0888 nfev=34 converged=True at_bound=True p6=[ -2.451  -2.386 199.891   4.999  -3.968   1.   ]
+case-grouped held-out RMSE (secondary): {'physics': 0.13441382689410777, 'data_driven': 0.1410721847027733, 'hybrid': 0.12254701439041016, 'constant_mean': 0.26217752677068923, 'time_power_law': 0.2255212541960928, 'log_linear_qn': 0.2459668491835168} t=212s
+C:\Users\mikae\Documents\RWTH\02_WS2627\02_DigitalTwins\04_Project\.venv\Lib\site-packages\sklearn\gaussian_process\_gpr.py:667: ConvergenceWarning: lbfgs failed to converge after 26 iteration(s) (status=2):
+ABNORMAL: 
+
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+  _check_optimize_result("lbfgs", opt_res)
+C:\Users\mikae\Documents\RWTH\02_WS2627\02_DigitalTwins\04_Project\.venv\Lib\site-packages\sklearn\gaussian_process\kernels.py:455: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k1__constant_value is close to the specified upper bound 1000.0. Increasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\Users\mikae\Documents\RWTH\02_WS2627\02_DigitalTwins\04_Project\.venv\Lib\site-packages\sklearn\gaussian_process\kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k2__noise_level is close to the specified lower bound 1e-09. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+C:\Users\mikae\Documents\RWTH\02_WS2627\02_DigitalTwins\04_Project\.venv\Lib\site-packages\sklearn\gaussian_process\_gpr.py:667: ConvergenceWarning: lbfgs failed to converge after 17 iteration(s) (status=2):
+ABNORMAL: 
+
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+  _check_optimize_result("lbfgs", opt_res)
+C:\Users\mikae\Documents\RWTH\02_WS2627\02_DigitalTwins\04_Project\.venv\Lib\site-packages\sklearn\gaussian_process\_gpr.py:667: ConvergenceWarning: lbfgs failed to converge after 27 iteration(s) (status=2):
+ABNORMAL: 
+
+You might also want to scale the data as shown in:
+    https://scikit-learn.org/stable/modules/preprocessing.html
+  _check_optimize_result("lbfgs", opt_res)
+C:\Users\mikae\Documents\RWTH\02_WS2627\02_DigitalTwins\04_Project\.venv\Lib\site-packages\sklearn\gaussian_process\kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k2__noise_level is close to the specified lower bound 1e-09. Decreasing the bound and calling fit again may find a better value.
+  warnings.warn(
+emulator case 1: {'n_train': 400, 'n_test': 100, 'n_outputs': 56, 'r2': 0.9957015472439217, 'rmse': 0.04856293534229278, 'coverage_2sigma': 0.9582142857142857, 't_ode_per_eval_s': 0.006197851199889555, 't_gp_per_eval_s': 8.23555001989007e-06, 'speedup_x': 752.572831798827, 'rmse_near_0p6': 0.001700167434760682, 'cap_fraction': 0.019785714285714285, 'cap_mm': 3.0, 'box_lo': [-2.94574179981673, -2.985366447399728, 0.0, 0.0, -4.0], 'box_hi': [-1.7609995622073251, -1.6813047144660622, 342.9807221001287, 5.0, 0.0]}
+emulator case 11: {'n_train': 400, 'n_test': 100, 'n_outputs': 62, 'r2': 0.998906750603181, 'rmse': 0.02138307443245605, 'coverage_2sigma': 0.97, 't_ode_per_eval_s': 0.009351794200018049, 't_gp_per_eval_s': 8.558900037314743e-06, 'speedup_x': 1092.6397269796912, 'rmse_near_0p6': 0.0009021649852755016, 'cap_fraction': 0.012161290322580644, 'cap_mm': 3.0, 'box_lo': [-2.98004073657121, -2.9226174510636564, 0.0, 0.0, -4.0], 'box_hi': [-1.9243894166269446, -1.6648567949185051, 223.3691300257238, 5.0, 0.0]}
+emulator case 13: {'n_train': 400, 'n_test': 100, 'n_outputs': 55, 'r2': 0.998109546133164, 'rmse': 0.03266101871454972, 'coverage_2sigma': 0.9629090909090909, 't_ode_per_eval_s': 0.006879230800084769, 't_gp_per_eval_s': 9.890249988529831e-06, 'speedup_x': 695.5568168714566, 'rmse_near_0p6': 0.0005829822627838971, 'cap_fraction': 0.020945454545454545, 'cap_mm': 3.0, 'box_lo': [-2.876608982969696, -2.9841734842599217, 0.0, 0.0, -3.5944299954780936], 'box_hi': [-1.8608927489324896, -1.7670848094796732, 229.99295544310093, 1.3219612370827005, 0.0]}
+calibrations done t=288s
+case 1 25%: tau=12.0 n_data=2 RUL med=36.7 [10.6,64.8] bracket=(26.0, 29.0) risk=0.081 cov95=1.0 acc=0.15 tau_max=57 steps/tau_min=176 MAP ok=True
+case 1 50%: tau=24.0 n_data=5 RUL med=18.5 [0.0,51.8] bracket=(14.0, 17.0) risk=0.263 cov95=1.0 acc=0.15 tau_max=50 steps/tau_min=201 MAP ok=True
+case 1 75%: tau=36.0 n_data=9 RUL med=6.9 [0.0,29.8] bracket=(2.0, 5.0) risk=0.420 cov95=1.0 acc=0.16 tau_max=48 steps/tau_min=210 MAP ok=True
+case 11 25%: tau=26.2 n_data=7 RUL med=53.2 [22.8,100.1] bracket=(45.75, 53.75) risk=0.092 cov95=1.0 acc=0.19 tau_max=39 steps/tau_min=259 MAP ok=True
+case 11 50%: tau=52.5 n_data=12 RUL med=28.9 [5.0,62.4] bracket=(19.5, 27.5) risk=0.248 cov95=1.0 acc=0.19 tau_max=38 steps/tau_min=264 MAP ok=True
+case 11 75%: tau=78.8 n_data=15 RUL med=2.5 [0.0,30.1] bracket=(0.0, 1.25) risk=0.480 cov95=1.0 acc=0.19 tau_max=34 steps/tau_min=297 MAP ok=True
+case 13 25%: tau=11.2 n_data=3 RUL med=11.8 [4.8,22.0] bracket=(7.75, 10.75) risk=0.025 cov95=1.0 acc=0.16 tau_max=45 steps/tau_min=221 MAP ok=True
+case 13 50%: tau=22.5 n_data=6 RUL med=0.0 [0.0,3.6] bracket=None risk=0.484 cov95=0.7142857142857143 acc=0.15 tau_max=67 steps/tau_min=148 MAP ok=True
+case 13 75%: tau=33.8 n_data=9 RUL med=0.0 [0.0,0.0] bracket=None risk=0.991 cov95=0.5 acc=0.14 tau_max=90 steps/tau_min=112 MAP ok=True
+Sobol (VB_tend): {'log10A': {'S1': 0.7725382953202524, 'ST': 0.7889388491276444}, 'log10B': {'S1': 0.17692355747218638, 'ST': 0.176695089629315}, 'Ea_R': {'S1': 0.02235634315850574, 'ST': 0.04211412241821741}, 'alpha': {'S1': -0.0015113833491533636, 'ST': 0.0016134830153279878}, 'log10hA': {'S1': 0.0031968350409237525, 'ST': 0.012023597156352624}}
+Sobol done t=290s
+derate d=1.0: RUL median=6.20 censored=0.00
+derate d=0.95: RUL median=6.51 censored=0.01
+derate d=0.9: RUL median=6.93 censored=0.01
+derate d=0.85: RUL median=7.43 censored=0.01
+derate d=0.8: RUL median=8.05 censored=0.01
+derate d=0.75: RUL median=8.40 censored=0.02
+derate d=0.7: RUL median=9.03 censored=0.02
+derate d=0.65: RUL median=9.58 censored=0.04
+derate d=0.6: RUL median=10.47 censored=0.04
+decision: {'t_star': 19.488471177944866, 'd_star': 0.85, 'J_star': 0.5800470994935618, 't_star_no_derate': 16.256390977443615, 'J_no_derate': 0.5945744707378948, 'derating_considered': True, 'interior': True, 'interior_no_derate': True, 't_max': 40.80000000000001} gain CI 0.0 0.2706330465781148 kept False policy t 16.256390977443615 P(T<=t) 0.82 recommend False
+DONE in 293s

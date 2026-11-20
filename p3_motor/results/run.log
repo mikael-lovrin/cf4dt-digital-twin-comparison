@@ -1,0 +1,67 @@
+[1] loading and inspecting CSV (C:\Users\mikae\Documents\RWTH\02_WS2627\02_DigitalTwins\04_Project\_data\p3_motor\measures_v2.csv) ...
+    rows=1330816 profiles=69 contiguous_runs=69 nan=0
+    train ids [7, 27, 36, 54, 61, 66, 67, 78]  held-out ids [2, 12, 68]  calibration session 68
+[2] LPTN nominal least-squares fit on training sessions, plus 2 session-grouped out-of-fold fits ...
+    nominal fit: status=2 nfev=32 (53.8 s)
+    out-of-fold fits: folds [7, 54, 67, 78] / [27, 36, 61, 66] (57.4 s); OOF free-run RMSE per node (W,T,Y,M) [6.005 3.823 2.468 8.776] vs in-sample [4.275 2.971 2.794 7.067]
+    train free-run RMSE per node (W,T,Y,M) [degC]: [4.275 2.971 2.794 7.067]
+    bias-free residual sd (W,T,Y,M) [3.498 2.741 2.567 5.684] degC; AR(1) rho at 60 s [0.921 0.884 0.927 0.986]; integrated time (diagnostic) [16.8 26.4 24.8 29.5]
+    max |exact-step scheme - solve_ivp(LSODA)| on train session: 0.0122 degC
+[3] held-out comparison: physics / data-driven / hybrid (OOF residual RF) / extra models / baselines ...
+    physics                  pooled held-out RMSE=10.311 degC  NRMSE=0.5940  bias=+2.72 degC
+    data_driven              pooled held-out RMSE=6.189 degC  NRMSE=0.3566  bias=+3.64 degC
+    hybrid                   pooled held-out RMSE=12.030 degC  NRMSE=0.6930  bias=+4.82 degC
+    hybrid_regularised_rf    pooled held-out RMSE=11.782 degC  NRMSE=0.6788  bias=+4.65 degC
+    physics_feature_rf       pooled held-out RMSE=10.167 degC  NRMSE=0.5857  bias=+6.31 degC
+    baseline_constant_mean   pooled held-out RMSE=20.224 degC  NRMSE=1.1651  bias=+10.38 degC
+    baseline_time_only       pooled held-out RMSE=18.568 degC  NRMSE=1.0697  bias=+6.19 degC
+[4] GP emulator on calibration session 68 (7-D LHS design, 300 runs) ...
+    GP (PCA, 12 components, 0.99940 of output variance) fitted in 60.3 s
+    before emulator-variance inflation: R2=0.99994 coverage2s=0.516
+    emulator: R2=0.99994 RMSE=0.1198 degC coverage2s=0.980 (50/80/95: 0.650 / 0.903 / 0.979) inflation scale=3.741 speed-up=19719x
+[5] Sobol indices on the GP emulator (N=1024, 6 uncertain parameters) ...
+    peak_pm: C_W S1=0.002 ST=0.002, C_M S1=0.152 ST=0.162, G_WT S1=0.000 ST=0.001, G_TM S1=0.001 ST=0.010, G_YC S1=0.073 ST=0.083, k_cu S1=0.749 ST=0.760
+    time_to_exceed_min: C_W S1=-0.002 ST=0.022, C_M S1=0.056 ST=0.274, G_WT S1=0.007 ST=0.011, G_TM S1=-0.001 ST=0.050, G_YC S1=0.062 ST=0.238, k_cu S1=0.578 ST=0.828
+The chain is shorter than 50 times the integrated autocorrelation time for 6 parameter(s). Use this estimate with caution and run a longer chain!
+N/50 = 10;
+tau: [15.95651813 18.78285013 16.69734051 16.56378718 16.38516075 15.18048141]
+The chain is shorter than 50 times the integrated autocorrelation time for 4 parameter(s). Use this estimate with caution and run a longer chain!
+N/50 = 20;
+tau: [20.1472674  20.47966442 20.54827062 17.07069558 21.26808878 19.86934542]
+[6] stage 25%: 48 obs, MAP logp=-431.2, MCMC 68.3 s, 1500 post-burn steps, acc=0.313, tau_max=25.1, converged(>=50 tau)=True, min steps/tau=59.7
+    pm cov95 pred=0.712 (param-only 0.219), bias=+9.06 degC, width95=25.07 degC, IS95=39.54, P(pm>100 in 30 min|no action)=0.0000, P(pm>100 before session end|no action)=0.2700
+    decision (nominal): d*=1.00  tau*=none  cost rate=0.000  (no-action cost rate=0.000)
+The chain is shorter than 50 times the integrated autocorrelation time for 6 parameter(s). Use this estimate with caution and run a longer chain!
+N/50 = 10;
+tau: [17.0231784  19.35254004 17.63747702 16.61862722 18.01558907 17.0825636 ]
+The chain is shorter than 50 times the integrated autocorrelation time for 6 parameter(s). Use this estimate with caution and run a longer chain!
+N/50 = 20;
+tau: [20.39151508 25.3554977  21.29544676 22.17517396 22.15235111 20.52811348]
+[6] stage 50%: 97 obs, MAP logp=-929.0, MCMC 63.6 s, 1500 post-burn steps, acc=0.329, tau_max=23.6, converged(>=50 tau)=True, min steps/tau=63.5
+    pm cov95 pred=0.704 (param-only 0.071), bias=+9.52 degC, width95=23.73 degC, IS95=36.45, P(pm>100 in 30 min|no action)=0.0000, P(pm>100 before session end|no action)=0.0167
+    decision (nominal): d*=1.00  tau*=none  cost rate=0.000  (no-action cost rate=0.000)
+The chain is shorter than 50 times the integrated autocorrelation time for 6 parameter(s). Use this estimate with caution and run a longer chain!
+N/50 = 10;
+tau: [18.68574076 21.9349691  16.90903181 20.79308729 16.52108021 18.13074506]
+The chain is shorter than 50 times the integrated autocorrelation time for 6 parameter(s). Use this estimate with caution and run a longer chain!
+N/50 = 20;
+tau: [23.63226498 26.47098455 21.79129328 26.54003056 20.44774565 23.05132729]
+[6] stage 75%: 145 obs, MAP logp=-1366.3, MCMC 80.1 s, 1500 post-burn steps, acc=0.322, tau_max=27.8, converged(>=50 tau)=True, min steps/tau=54.0
+    pm cov95 pred=0.571 (param-only 0.000), bias=+11.46 degC, width95=24.02 degC, IS95=41.62, P(pm>100 in 30 min|no action)=0.0067, P(pm>100 before session end|no action)=0.0067
+    decision (nominal): d*=1.00  tau*=none  cost rate=0.222  (no-action cost rate=0.222)
+[6b] PRE-REGISTERED stress (limit 100 degC, currents x1.2, coolant +10 K over the 30-min window), 50% stage:
+    session 68 (calibration): P(exceed|no action)=0.343, d*=0.75 tau*=15.0 cost=2.889 (no-action 11.444), informative=True
+    session 12 (replicate, posterior of 68): P(exceed|no action)=0.000, d*=1.00 tau*=None cost=0.000 (no-action 0.000), informative=False
+    break-even dP at d=0.8, tau=0 (from code constants) = 0.1250; stress dP at d=0.8, tau=0 (session 68) = 0.3433
+    session 12 nominal: P(exceed|no action)=0.000; posterior-68 forecast coverage95 on session 12 = 1.000
+    sensitivity (nominal, session 68) C_thr=5 -> d*=1.00 tau*=none cost=0.000
+    sensitivity (nominal, session 68) C_thr=10 -> d*=1.00 tau*=none cost=0.000
+    sensitivity (nominal, session 68) C_thr=20 -> d*=1.00 tau*=none cost=0.000
+    sensitivity (nominal, session 68) C_thr=40 -> d*=1.00 tau*=none cost=0.000
+    sensitivity (nominal, session 68) C_thr=60 -> d*=1.00 tau*=none cost=0.000
+    sensitivity (stress, session 68) C_thr=5 -> d*=0.70 tau*=15.0 cost=0.917
+    sensitivity (stress, session 68) C_thr=10 -> d*=0.75 tau*=15.0 cost=1.639
+    sensitivity (stress, session 68) C_thr=20 -> d*=0.75 tau*=15.0 cost=2.889
+    sensitivity (stress, session 68) C_thr=40 -> d*=0.80 tau*=15.0 cost=5.056
+    sensitivity (stress, session 68) C_thr=60 -> d*=0.85 tau*=15.0 cost=7.000
+done in 462.3 s; wrote results/metrics.json, results/summary.md, 8 figures

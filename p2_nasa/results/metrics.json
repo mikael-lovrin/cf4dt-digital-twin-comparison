@@ -1,0 +1,546 @@
+{
+  "project": "p2_nasa",
+  "round": 3,
+  "n_rows": 167,
+  "n_rows_usable": 165,
+  "target": "VB",
+  "target_unit": "mm",
+  "has_real_time_axis": true,
+  "has_unit_ids": true,
+  "data_synthetic_suspected": false,
+  "heldout_rmse": {
+    "physics": 0.145366321787164,
+    "data_driven": 0.22629815209136178,
+    "hybrid": 0.13060354421432938
+  },
+  "heldout_nrmse": {
+    "physics": 0.5612497076189065,
+    "data_driven": 0.8737221258300472,
+    "hybrid": 0.5042516045195681
+  },
+  "baselines": {
+    "constant_mean": {
+      "heldout_rmse": 0.2671130274905884,
+      "heldout_nrmse": 1.0313056472584663
+    },
+    "time_power_law": {
+      "heldout_rmse": 0.24589412025366003,
+      "heldout_nrmse": 0.9493808565895844,
+      "fold_params": [
+        {
+          "a": 0.07645843717089243,
+          "q": 0.49905598695630715
+        },
+        {
+          "a": 0.06138713295174136,
+          "q": 0.47375447309147206
+        },
+        {
+          "a": 0.07916132108339924,
+          "q": 0.45026408745817
+        },
+        {
+          "a": 0.03988148782127329,
+          "q": 0.607349414440863
+        }
+      ]
+    },
+    "best_simple_nrmse": 0.9493808565895844
+  },
+  "physics_fit": {
+    "max_nfev": 1000,
+    "n_starts": 8,
+    "x_scale": "jac",
+    "setting_folds_not_converged": [],
+    "setting_folds_at_bound": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "case_folds_not_converged": [],
+    "case_folds_at_bound": [
+      2,
+      3,
+      4
+    ],
+    "converged_setting_folds": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "heldout_rmse_converged_folds": {
+      "physics": 0.145366321787164,
+      "data_driven": 0.22629815209136178,
+      "hybrid": 0.13060354421432938,
+      "constant_mean": 0.2671130274905884,
+      "time_power_law": 0.24589412025366003,
+      "log_linear_qn": 0.335554418621002
+    },
+    "heldout_nrmse_converged_folds": {
+      "physics": 0.5612497076189065,
+      "data_driven": 0.8737221258300472,
+      "hybrid": 0.5042516045195681,
+      "constant_mean": 1.0313056472584663,
+      "time_power_law": 0.9493808565895844,
+      "log_linear_qn": 1.295553309913213
+    },
+    "n_rows_converged_folds": 145,
+    "primary_nrmse_physics_converged_rows_only": 0.5612497076189065
+  },
+  "box": {
+    "method": "per setting fold, from training-fold fits only: stage A = multistart on the a-priori outer limits; range of stage-A fits with cost <= 1.05 x best, each side extended by 50% of range (minimum range 20% of outer range), clipped to outer limits; stage B = refit in box",
+    "outer_limits": {
+      "lo": [
+        -5.0,
+        -7.0,
+        0.0,
+        0.0,
+        -4.0
+      ],
+      "hi": [
+        0.0,
+        -1.0,
+        2000.0,
+        5.0,
+        0.0
+      ]
+    },
+    "per_fold": {
+      "0": {
+        "lo": [
+          -2.98004073657121,
+          -2.9226174510636564,
+          0.0,
+          0.0,
+          -4.0
+        ],
+        "hi": [
+          -1.9243894166269446,
+          -1.6648567949185051,
+          223.3691300257238,
+          5.0,
+          0.0
+        ],
+        "n_near_optimal_stageA": 7
+      },
+      "1": {
+        "lo": [
+          -2.876608982969696,
+          -2.9841734842599217,
+          0.0,
+          0.0,
+          -3.5944299954780936
+        ],
+        "hi": [
+          -1.8608927489324896,
+          -1.7670848094796732,
+          229.99295544310093,
+          1.3219612370827005,
+          0.0
+        ],
+        "n_near_optimal_stageA": 8
+      },
+      "2": {
+        "lo": [
+          -2.94574179981673,
+          -2.985366447399728,
+          0.0,
+          0.0,
+          -4.0
+        ],
+        "hi": [
+          -1.7609995622073251,
+          -1.6813047144660622,
+          342.9807221001287,
+          5.0,
+          0.0
+        ],
+        "n_near_optimal_stageA": 8
+      },
+      "3": {
+        "lo": [
+          -2.9322122982513483,
+          -3.00693514130188,
+          0.0,
+          0.19230801559899424,
+          -4.0
+        ],
+        "hi": [
+          -1.898258120425286,
+          -1.7967285806880158,
+          403.53189883047014,
+          5.0,
+          -3.1562799443211795
+        ],
+        "n_near_optimal_stageA": 7
+      }
+    }
+  },
+  "surrogate": {
+    "r2": 0.9975356297727435,
+    "rmse": 0.03558654098327681,
+    "coverage_2sigma": 0.9637077922077921,
+    "speedup_x": 846.9231252166583,
+    "rmse_VB_le_0p6": 0.0011584105768336604,
+    "cap_mm": 3.0,
+    "cap_fraction": 0.017630819717916493,
+    "crossing_time_abs_err": {
+      "1": 0.2917931032711678,
+      "11": 0.13174123970152607,
+      "13": 0.006389082636179211
+    },
+    "cap_ablation": {
+      "1": {
+        "t_ode": 28.46986637355853,
+        "t_gp_capped": 28.178073270287364,
+        "t_gp_uncapped": 28.161294213405654,
+        "abs_err_capped": 0.2917931032711678,
+        "abs_err_uncapped": 0.3085721601528775,
+        "delta_cap_minus_uncapped": 0.016779056881709664,
+        "censored_ode": false,
+        "censored_gp": false,
+        "delta_rul_median_capped_minus_uncapped": 0.037876667375716266,
+        "max_abs_delta_rul_median": 0.0745264442381739
+      },
+      "11": {
+        "t_ode": 62.857021205212725,
+        "t_gp_capped": 62.98876244491425,
+        "t_gp_uncapped": 62.99925131618169,
+        "abs_err_capped": 0.13174123970152607,
+        "abs_err_uncapped": 0.14223011096896698,
+        "delta_cap_minus_uncapped": -0.010488871267440913,
+        "censored_ode": false,
+        "censored_gp": false,
+        "delta_rul_median_capped_minus_uncapped": -0.004159525462969309,
+        "max_abs_delta_rul_median": 0.016997805410433386
+      },
+      "13": {
+        "t_ode": 23.534068989713777,
+        "t_gp_capped": 23.527679907077598,
+        "t_gp_uncapped": 23.522400514563827,
+        "abs_err_capped": 0.006389082636179211,
+        "abs_err_uncapped": 0.011668475149949842,
+        "delta_cap_minus_uncapped": 0.005279392513770631,
+        "censored_ode": false,
+        "censored_gp": false,
+        "delta_rul_median_capped_minus_uncapped": 0.0012060116957848994,
+        "max_abs_delta_rul_median": 0.0036180350873546985
+      },
+      "max_abs_delta_t_cross": 0.016779056881709664,
+      "max_abs_delta_rul_median": 0.0745264442381739
+    },
+    "crossing_on": "median curve exp(mu_log) - EPS"
+  },
+  "sobol": {
+    "log10A": {
+      "S1": 0.7725382953202524,
+      "ST": 0.7889388491276444
+    },
+    "log10B": {
+      "S1": 0.17692355747218638,
+      "ST": 0.176695089629315
+    },
+    "Ea_R": {
+      "S1": 0.02235634315850574,
+      "ST": 0.04211412241821741
+    },
+    "alpha": {
+      "S1": -0.0015113833491533636,
+      "ST": 0.0016134830153279878
+    },
+    "log10hA": {
+      "S1": 0.0031968350409237525,
+      "ST": 0.012023597156352624
+    }
+  },
+  "calibration": {
+    "posterior_to_prior_std_ratio": {
+      "log10A": 0.6220772968750533,
+      "log10B": 0.7716919569566896,
+      "Ea_R": 0.9986470745253159,
+      "alpha": 1.0003284795338767,
+      "log10hA": 0.9818570697116533
+    },
+    "mean_autocorr_time": 42.444546676124084,
+    "acceptance_fraction": 0.164767650462963,
+    "coverage95_heldout": 0.9428571428571428
+  },
+  "mcmc": {
+    "tau_per_param": {
+      "log10A": 89.6310382865459,
+      "log10B": 70.34745997951234,
+      "Ea_R": 49.87303087599248,
+      "alpha": 52.798206947643685,
+      "log10hA": 50.00491492559739,
+      "log_sigma": 56.8134076379264
+    },
+    "tau_per_run": {
+      "case1_25": {
+        "log10A": 43.93053214626765,
+        "log10B": 41.758360407421286,
+        "Ea_R": 43.77349725880526,
+        "alpha": 48.7056881292028,
+        "log10hA": 50.00491492559739,
+        "log_sigma": 56.8134076379264
+      },
+      "case1_50": {
+        "log10A": 40.11904730897361,
+        "log10B": 39.85654309633967,
+        "Ea_R": 47.19663144077732,
+        "alpha": 48.10428404689523,
+        "log10hA": 45.19596533041936,
+        "log_sigma": 49.86712489868264
+      },
+      "case1_75": {
+        "log10A": 40.506794907542826,
+        "log10B": 39.74176022200429,
+        "Ea_R": 42.38939923979861,
+        "alpha": 43.635663638401645,
+        "log10hA": 46.53285443258503,
+        "log_sigma": 47.71142286798695
+      },
+      "case11_25": {
+        "log10A": 30.854822613390358,
+        "log10B": 31.74167493355457,
+        "Ea_R": 38.66916786056525,
+        "alpha": 29.829878702840816,
+        "log10hA": 31.71296663543884,
+        "log_sigma": 33.33598843549818
+      },
+      "case11_50": {
+        "log10A": 31.341690024612078,
+        "log10B": 32.37577302362545,
+        "Ea_R": 37.81071828026361,
+        "alpha": 28.576764672247307,
+        "log10hA": 29.132351273851782,
+        "log_sigma": 31.416157403302712
+      },
+      "case11_75": {
+        "log10A": 31.31638583473226,
+        "log10B": 33.32803990985851,
+        "Ea_R": 33.64816682619548,
+        "alpha": 29.347632334062116,
+        "log10hA": 27.65894779491028,
+        "log_sigma": 32.18857278464705
+      },
+      "case13_25": {
+        "log10A": 42.71138219936204,
+        "log10B": 37.47017096791647,
+        "Ea_R": 45.31683601023794,
+        "alpha": 42.94564180220752,
+        "log10hA": 35.09688143708849,
+        "log_sigma": 41.26788148707224
+      },
+      "case13_50": {
+        "log10A": 67.36732184698684,
+        "log10B": 56.211029845167296,
+        "Ea_R": 47.49124837991022,
+        "alpha": 49.44427386247968,
+        "log10hA": 42.13943645286337,
+        "log_sigma": 46.54685397444047
+      },
+      "case13_75": {
+        "log10A": 89.6310382865459,
+        "log10B": 70.34745997951234,
+        "Ea_R": 49.87303087599248,
+        "alpha": 52.798206947643685,
+        "log10hA": 42.3637242804889,
+        "log_sigma": 50.405124042960956
+      }
+    },
+    "n_steps": 12000,
+    "burn": 2000,
+    "n_walkers": 32,
+    "min_steps_over_tau": 111.5684944765507,
+    "ess_min": 3570.1918232496223,
+    "converged_50tau": true,
+    "moves": "DEMove (0.8) + DESnookerMove (0.2)",
+    "init": "MAP (L-BFGS-B) + small ball",
+    "map_success_all": true
+  },
+  "interval_calibration": {
+    "coverage": {
+      "0.5": 0.7571428571428571,
+      "0.8": 0.8714285714285714,
+      "0.95": 0.9428571428571428
+    },
+    "mean_width95": 1.6586431894704554,
+    "n_points": 70,
+    "bias_mean_95_by_stage": {
+      "case1_25": 0.062364435956371936,
+      "case1_50": 0.01615303624660764,
+      "case1_75": -0.004964528349723996,
+      "case11_25": 0.03360122230719472,
+      "case11_50": 0.08903877849656353,
+      "case11_75": 0.11670169221683402,
+      "case13_25": 0.23027282427565726,
+      "case13_50": 0.28293897259661566,
+      "case13_75": 0.3598554559620033
+    }
+  },
+  "decision_checks": {
+    "optimum_interior": true,
+    "cost_sweep_range": [
+      15.448370927318301,
+      40.698997493734346
+    ],
+    "stressed_scenario_action_nontrivial": true,
+    "stressed_scenario": {
+      "c_f": 10.0,
+      "t_star": 19.488471177944866,
+      "d_star": 0.85,
+      "interior": true
+    },
+    "t_max": 40.80000000000001,
+    "censored_fraction_max": 0.045,
+    "t_star_le_observed_crossing_bracket": false,
+    "t_star_le_posterior_median_rul": false
+  },
+  "checks": {
+    "C1_physics_converged_all_setting_folds": true,
+    "C2_physics_beats_best_simple_baseline": true,
+    "C3_hybrid_beats_best_simple_baseline": true,
+    "C4_mcmc_50tau_met": true,
+    "C5_interval_calibrated": false,
+    "C6_recommendation_issued": false,
+    "C7_derating_kept": false,
+    "C8_optimum_interior": true,
+    "C9_box_training_only": true
+  },
+  "checks_failed": [
+    "C5_interval_calibrated",
+    "C6_recommendation_issued",
+    "C7_derating_kept"
+  ],
+  "risk": {
+    "description": "instantaneous P(VB > 0.45 mm) at 75% of life, case 1 (log-space posterior predictive, median curve)",
+    "value": 0.4198873068251594
+  },
+  "decision": {
+    "description": "expected cost per unit time J(t,d)=[c_p(1-P_f)+c_f P_f]/(d E[min(T/d,t)]), c_p=1.0, c_f=5.0 (assumed); posterior RUL of case 1 at 75% of life; t = replacement time after cutoff; grid up to the censoring horizon 40.8",
+    "status": "no recommendation",
+    "optimal_value": null,
+    "candidate_t_not_a_recommendation": 16.256390977443615,
+    "candidate_derate_d": 1.0,
+    "unit": "CSV time units after the 75% cutoff",
+    "expected_cost": null,
+    "candidate_expected_cost": 0.5945744707378948,
+    "P_T_le_t_star": 0.82,
+    "rul_quantiles_at_candidate_derate": {
+      "5": 0.0,
+      "25": 0.0,
+      "50": 6.199944165397955,
+      "75": 13.295495036336083,
+      "95": 21.36681472541678
+    },
+    "rule": "recommend only if t_candidate <= lower bound of observed crossing bracket after cutoff"
+  },
+  "derating": {
+    "gain_point": 0.024433224027099354,
+    "gain_ci95": [
+      0.0,
+      0.2706330465781148
+    ],
+    "n_boot": 1000,
+    "kept": false,
+    "rule": "kept only if the 95% bootstrap interval lower bound > 0"
+  },
+  "baseline_log_linear": {
+    "name": "VB = a * qn^p * t^q (OLS on log VB, training folds); REFERENCE ONLY, not a comparator",
+    "heldout_rmse": 0.335554418621002,
+    "heldout_nrmse": 1.295553309913213
+  },
+  "cv": {
+    "primary": "setting-grouped, 4 folds x 2 settings",
+    "secondary_case_grouped": {
+      "rmse": {
+        "physics": 0.13441382689410777,
+        "data_driven": 0.1410721847027733,
+        "hybrid": 0.12254701439041016,
+        "constant_mean": 0.26217752677068923,
+        "time_power_law": 0.2255212541960928,
+        "log_linear_qn": 0.2459668491835168
+      },
+      "nrmse": {
+        "physics": 0.5189628527212119,
+        "data_driven": 0.5446703297172045,
+        "hybrid": 0.47314587829284205,
+        "constant_mean": 1.012250006984015,
+        "time_power_law": 0.8707225746877414,
+        "log_linear_qn": 0.9496616581543188
+      },
+      "folds": "5 case folds"
+    },
+    "leakage_gap_nrmse_setting_minus_case": {
+      "physics": 0.04228685489769457,
+      "data_driven": 0.32905179611284263,
+      "hybrid": 0.031105726226726027,
+      "constant_mean": 0.01905564027445128,
+      "time_power_law": 0.07865828190184299
+    }
+  },
+  "runtime_sec": 292.7847679000115,
+  "r2_vs_r3": {
+    "heldout_nrmse": {
+      "r2": {
+        "physics": 0.5397074206490917,
+        "data_driven": 0.8737221258647834,
+        "hybrid": 0.483122732078602
+      },
+      "r3": {
+        "physics": 0.5612497076189065,
+        "data_driven": 0.8737221258300472,
+        "hybrid": 0.5042516045195681
+      }
+    },
+    "coverage95": [
+      0.8428571428571429,
+      0.9428571428571428
+    ],
+    "min_steps_over_tau": [
+      17.493277761017808,
+      111.5684944765507
+    ],
+    "decision_optimal_value": [
+      4.641102756892232,
+      null
+    ],
+    "note": "round 2 snapshot in results/metrics_round2.json"
+  },
+  "changes_r3": [
+    "Physics design box is derived per setting fold from training-fold fits only (two-stage: multistart on a-priori outer limits, then refit in the derived box). The round-2 hard-coded box (LO/HI) is removed.",
+    "Physics fits: max_nfev 150 -> 1000, x_scale='jac', 8 starts per stage (round 2: 4 starts). Physics nRMSE is reported on all folds and on converged folds only.",
+    "Baselines: constant training mean and time-only power law VB = a t^q (no qn term) added as comparators; the round-2 qn log-linear model is kept as a reference row only.",
+    "Emulator and noise model: GP on log(VB + 1e-3); predictive noise is relative (log-space) with a uniform prior on log sigma in [log 0.01, log 1]. Predictive bands are non-negative by construction.",
+    "Crossings, RUL and failure risk use the median curve exp(mu_log) - EPS (round 2 used the lognormal mean).",
+    "VB_CAP ablation: the emulator is also built with no cap; crossing-time and median-RUL changes are reported.",
+    "MCMC: MAP initialisation (L-BFGS-B) and a DEMove (0.8) + DESnookerMove (0.2) mixture; per-parameter and per-run integrated autocorrelation times reported. Calibration runs execute in parallel.",
+    "Decision: P(T <= t) and remaining-life quantiles at the candidate replacement time reported; recommendation issued only if the candidate time is no later than the observed bracket's lower bound (otherwise 'no recommendation'). Derating kept only if its 1000-draw bootstrap interval excludes 0.",
+    "Decision cost is evaluated with sorted samples (checked against the direct form to 1e-9).",
+    "Pass/fail flags are pre-registered in the code header (C1-C9) and are reported as computed, including failures."
+  ],
+  "limitations": [
+    "Only 15 of 16 cases are usable: case 6 has a single run (no wear trajectory) and is dropped. 145 VB labels in total, 3-20 per case.",
+    "Setting-grouped CV (4 folds x 2 of the 8 operating settings) is the primary split. The case-grouped split (secondary, 5 folds) gives nRMSE physics 0.519, data-driven 0.545, hybrid 0.473. Leakage gap (setting minus case) = +0.329 data-driven.",
+    "Physics fits: 0 of 4 setting folds did not converge within max_nfev = 1000 (none). The primary physics nRMSE and the converged-folds-only nRMSE are both reported. Parameters are weakly identified from VB alone; fold-to-fold estimates differ.",
+    "Design box: derived per fold from training-fold fits, so no held-out case shapes the box. The outer limits are fixed a priori; the derivation rule (BOX_NEAR_OPT, BOX_EXTEND, BOX_MIN_FRAC) was chosen before the round-3 run, but was not tested against alternatives.",
+    "No force sensor: smcDC (DC spindle motor current) is a proxy for F_res. After masking the run-in transient (6 rows) its within-case coefficient of variation is 2.1% (median) and 2.8% (max) over the cases. Its observation slope on wear is weak (within-case cw = 0.01795 mm^-1, R^2 = 0.042).",
+    "Entry transient: the smcDC run-in of case 1 is masked from the force proxy u(t) only; VB labels from those runs are kept. Before the first valid sample (time 19) u(t) is held at its first valid value, an assumption.",
+    "Cutting speed is constant and lumped into A; not separately identified. DOC and feed enter as the load factor qn; material enters as a multiplicative covariate gamma fitted on training folds.",
+    "The time column is cumulative per case. The Readme labels the Fig. 6 axis 'machining time [mm]', which is physically inconsistent with a time unit, so RUL and t* are reported in CSV time units and not converted.",
+    "Thermal ODE constants (ETA = 5 K per time unit, T_inf = 300 K) are fixed; C_th is absorbed into ETA and hA. The temperature rise in the Arrhenius term is capped at 400 K (DT_MAX).",
+    "Emulator output for the GP is capped at VB = 3.0 mm in the primary build (cap active for 1.8% of design outputs on average). Ablation without the cap changes crossing times by at most 0.017 CSV units and median RUL by at most 0.075 CSV units across the calibration stages.",
+    "Calibration windows hold only 2-15 measured VB points before each cutoff. Posteriors on the weakly identified parameters stay close to the prior (posterior-to-prior width ratios). This is the central data-scarcity result.",
+    "Emulators are per case (3 calibration cases), not a global surrogate; Sobol is for case 1 only and assumes the uniform box of its fold as its input distribution.",
+    "RUL uses the median emulator curve (parameter and noise uncertainty enter the predictive, not the crossing).",
+    "Decision costs (c_p=1.0, c_f=5.0) are assumed; the sweep over c_f in [2.0, 5.0, 10.0, 20.0] gives grid t* in [15.45, 40.70]. Derating uses 200 posterior draws per level, so derated-life distributions carry sampling noise; the derating-gain interval is a bootstrap over those draws (n = 1000).",
+    "Replacement times are evaluated up to the censoring horizon 40.8 after the cutoff (max censored share 4.5%).",
+    "MCMC: 32 walkers x 12000 steps, burn-in 2000, DE/snooker moves from a MAP start. The 50-tau criterion is met (minimum chain/tau = 111.6); posteriors for parameters above the limit are approximate.",
+    "Raw signals in mill/mill.mat were not used (CSV RMS features are sufficient for the modelling).",
+    "Test-case physics predictions start from VB(0)=0 and use no VB measurements of the held-out case. The baselines are fitted on training folds only; the time power law excludes VB = 0 rows (not log-transformable).",
+    "The data-driven and hybrid models use concurrent sensor readings and time as inputs (sensing, not forecasting); this comparison is not like-for-like with the open-loop physics ODE (not changed in round 3).",
+    "Speed-up compares one RK45 ODE solve (rtol 1e-4) with one GP prediction in batch; not directly comparable to other sub-projects."
+  ]
+}

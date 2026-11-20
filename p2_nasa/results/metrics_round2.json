@@ -1,0 +1,165 @@
+{
+  "project": "p2_nasa",
+  "round": 2,
+  "n_rows": 167,
+  "target": "VB",
+  "target_unit": "mm",
+  "has_real_time_axis": true,
+  "has_unit_ids": true,
+  "data_synthetic_suspected": false,
+  "heldout_rmse": {
+    "physics": 0.1397867678432146,
+    "data_driven": 0.2262981521003586,
+    "hybrid": 0.12513106658350104
+  },
+  "heldout_nrmse": {
+    "physics": 0.5397074206490917,
+    "data_driven": 0.8737221258647834,
+    "hybrid": 0.483122732078602
+  },
+  "surrogate": {
+    "r2": 0.9566391802766651,
+    "rmse": 0.25541138801203156,
+    "coverage_2sigma": 0.9549132947976878,
+    "speedup_x": 707.4017880893067,
+    "rmse_VB_le_0p6": 0.016243162852196458,
+    "cap_mm": 3.0,
+    "cap_fraction": 0.21195929339477726,
+    "crossing_time_abs_err": {
+      "1": 2.06366381374227,
+      "11": 6.380694024548362,
+      "13": 1.2041330664475112
+    }
+  },
+  "sobol": {
+    "log10A": {
+      "S1": 0.8257518469802724,
+      "ST": 0.9280913665419355
+    },
+    "log10B": {
+      "S1": 0.0002811533151246996,
+      "ST": 0.020303050016004687
+    },
+    "Ea_R": {
+      "S1": 0.052453045778509566,
+      "ST": 0.14921653447626096
+    },
+    "alpha": {
+      "S1": -0.001040047442122715,
+      "ST": 0.016119032028559643
+    },
+    "log10hA": {
+      "S1": 0.006668224546210552,
+      "ST": 0.03662719970719237
+    }
+  },
+  "calibration": {
+    "posterior_to_prior_std_ratio": {
+      "log10A": 0.41311674916923424,
+      "log10B": 0.9392907768224618,
+      "Ea_R": 0.5726390233544778,
+      "alpha": 0.8923554570918095,
+      "log10hA": 0.9841115366999945
+    },
+    "mean_autocorr_time": 233.86436961108225,
+    "acceptance_fraction": 0.33449826388888887,
+    "coverage95_heldout": 0.8428571428571429
+  },
+  "mcmc": {
+    "tau_per_param": {
+      "log10A": 522.9819710995417,
+      "log10B": 571.6481574587524,
+      "Ea_R": 301.3621647900971,
+      "alpha": 214.77398562038988,
+      "log10hA": 224.79623015676128,
+      "log_sigma": 212.84765310876168
+    },
+    "n_steps": 12000,
+    "burn": 2000,
+    "n_walkers": 32,
+    "min_steps_over_tau": 17.493277761017808,
+    "ess_min": 559.7848883525699,
+    "converged_50tau": false
+  },
+  "interval_calibration": {
+    "coverage": {
+      "0.5": 0.34285714285714286,
+      "0.8": 0.5857142857142857,
+      "0.95": 0.8428571428571429
+    },
+    "mean_width95": 0.5418685124208392,
+    "n_points": 70
+  },
+  "decision_checks": {
+    "optimum_interior": true,
+    "cost_sweep_range": [
+      2.7220551378446123,
+      11.509273182957397
+    ],
+    "stressed_scenario_action_nontrivial": true,
+    "stressed_scenario": {
+      "c_f": 10.0,
+      "t_star": 2.7220551378446123,
+      "d_star": 0.85,
+      "interior": true
+    },
+    "t_max": 40.80000000000001,
+    "censored_fraction_max": 0.0,
+    "t_star_le_observed_crossing_bracket": false,
+    "t_star_le_posterior_median_rul": false
+  },
+  "risk": {
+    "description": "instantaneous P(VB > 0.45 mm) at 75% of life, case 1 (posterior predictive)",
+    "value": 0.377253444604816
+  },
+  "decision": {
+    "description": "expected cost per unit time J(t,d)=[c_p(1-P_f)+c_f P_f]/(d E[min(T/d,t)]), c_p=1.0, c_f=5.0 (assumed), posterior RUL of case 1 at 75% of life; t = replacement time after cutoff; grid up to the censoring horizon 40.8",
+    "optimal_value": 4.641102756892232,
+    "unit": "CSV time units after the 75% cutoff",
+    "expected_cost": 2.006170331484863
+  },
+  "baseline_log_linear": {
+    "name": "VB = a * qn^p * t^q (OLS on log VB, training folds)",
+    "heldout_rmse": 0.335554418621002,
+    "heldout_nrmse": 1.295553309913213
+  },
+  "cv": {
+    "primary": "setting-grouped, 4 folds x 2 settings",
+    "secondary_case_grouped": {
+      "rmse": {
+        "physics": 0.1329623425798796,
+        "data_driven": 0.14107218470062977,
+        "hybrid": 0.12132475200878584,
+        "log_linear": 0.2459668491835168
+      },
+      "nrmse": {
+        "physics": 0.513358768247184,
+        "data_driven": 0.5446703297089285,
+        "hybrid": 0.4684268044668934,
+        "log_linear": 0.9496616581543188
+      },
+      "folds": "5 case folds"
+    }
+  },
+  "runtime_sec": 453.44331760006025,
+  "limitations": [
+    "Only 15 of 16 cases are usable: case 6 has a single run (no wear trajectory) and is dropped. 145 VB labels in total, 3-20 per case.",
+    "Setting-grouped CV (4 folds x 2 of the 8 operating settings) is the primary split, so replicate inserts of a setting never sit in both train and test. The case-grouped split (secondary, 5 folds) gives nRMSE physics 0.513, data-driven 0.545, hybrid 0.468; the leakage gap (setting minus case nRMSE) is +0.329 for data-driven and +0.015 for hybrid.",
+    "15 of 15 usable cases have a measured VB >= 0.45 mm, so the crossing is observed for all of them. Readme: runs continued 'up to a wear limit (and sometimes beyond)', so the crossings lie near the end of each experiment. RUL forecasts from early stages are model extrapolations, not observed outcomes.",
+    "No force sensor: smcDC (DC spindle motor current) is a proxy for F_res. After masking the run-in transient (6 rows of case 1 with smcDC < 1.0), its within-case coefficient of variation is 2.1% (median) and 2.8% (max) over the cases. Its observation slope on wear is weak (within-case cw = 0.01795 mm^-1, R^2 = 0.042).",
+    "Entry transient: the smcDC run-in of case 1 (runs 1-6, smcDC 0.13-0.91 against a steady 1.3-1.45 elsewhere) is masked from the force proxy u(t) only; VB labels from those runs are kept. Before the first valid sample (time 19) u(t) is held at its first valid value, an assumption.",
+    "Cutting speed is constant (200 m/min per Readme) and is lumped into A; it is not separately identified. DOC and feed enter as the load factor qn; material enters as a multiplicative covariate gamma fitted on training folds.",
+    "The time column is cumulative per case. The Readme labels the Fig. 6 axis 'machining time [mm]', which is physically inconsistent with a time unit, so RUL and t* are reported in CSV time units and not converted.",
+    "Thermal ODE constants (ETA = 5 K per time unit, T_inf = 300 K) are fixed, not calibrated; C_th is absorbed into ETA and hA. The temperature rise in the Arrhenius term is capped at 400 K (DT_MAX): without the cap the wear-heat feedback runs away at extreme parameters. Disclosed: the design box (LO/HI in physics_model.py) was narrowed in round 1 to the region the least-squares fits occupy, using fits from all folds; it has not been re-derived from training folds only, so the box choice can leak a little information about the held-out folds.",
+    "Emulator output is capped at VB = 3.0 mm for the GP fit. The cap is active for 21.2% of the emulator design outputs (mean over the three calibration cases). Crossings at 0.45 mm lie far below the cap, so the cap does not move them (crossing-time error at the prior centre: 6.38 CSV units at most), but emulator-based Sobol variances are affected by it.",
+    "Calibration windows hold only 2-15 measured VB points (VB measured at t > 0 and t <= cutoff). Posteriors on the weakly identified parameters stay close to the prior, and the posterior-to-prior width ratios and the held-out coverage quantify this. This is the central data-scarcity result.",
+    "Physics least-squares fits: 2 of 4 setting folds reached the iteration limit (max_nfev = 150) without converging and 3 have a parameter at its bound; the case-grouped fits show 1 and 4. The ODE parameters are therefore weakly identified from VB alone and the prior centres are not well-determined estimates.",
+    "Emulators are per case (3 calibration cases), not a global surrogate over DOC/feed/material; Sobol is for case 1 only and assumes the uniform design box as its input distribution.",
+    "RUL uses GP-mean curves (parameter uncertainty only, emulator and sensor noise not added to the crossing). Failure risk includes sensor noise and emulator variance.",
+    "Decision costs (c_p=1.0, c_f=5.0) are assumed; the sweep over c_f in [2.0, 5.0, 10.0, 20.0] gives t* in [2.72, 11.51]. Derating is evaluated by re-simulating the ODE with the load scaled after the cutoff, using 200 posterior draws per derate level (not the full posterior), so the derated-life distributions carry sampling noise. Replacement times are evaluated only up to the censoring horizon 40.8 after the cutoff (max censored share 0.0%).",
+    "MCMC: 32 walkers x 12000 steps, burn-in 2000. The 50-tau criterion is NOT met (minimum chain/tau = 17); the posteriors for parameters with tau above the limit should be read as approximate.",
+    "Raw signals in mill/mill.mat were not used (CSV RMS features are sufficient for the modelling, and the 72 MB file was not cheap to load).",
+    "Test-case physics predictions start from VB(0)=0, so they use no VB measurements of the held-out case. The log-linear baseline is fitted on training folds only and excludes rows with VB = 0 (not log-transformable).",
+    "Speed-up compares one RK45 ODE solve (rtol 1e-4, solve_ivp) with one GP prediction in batch; it is not a comparison against a different reference solver and is not directly comparable to speed-ups quoted by other sub-projects."
+  ]
+}

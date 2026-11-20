@@ -1,0 +1,539 @@
+{
+  "project": "p3_motor",
+  "n_rows": 1330816,
+  "target": "pm",
+  "target_unit": "degC",
+  "has_real_time_axis": false,
+  "has_unit_ids": true,
+  "data_synthetic_suspected": false,
+  "heldout_rmse": {
+    "physics": 10.311174674750683,
+    "data_driven": 6.189287955729981,
+    "hybrid": 12.029862151694827
+  },
+  "heldout_nrmse": {
+    "physics": 0.5940214238437839,
+    "data_driven": 0.35656166828837105,
+    "hybrid": 0.6930341177802801
+  },
+  "heldout_nrmse_extra": {
+    "hybrid_regularised_rf": 0.6787827630492931,
+    "physics_feature_rf": 0.585730645594896,
+    "baseline_constant_mean": 1.1651092055552827,
+    "baseline_time_only": 1.0696733435459906
+  },
+  "surrogate": {
+    "r2": 0.9999447483436623,
+    "rmse": 0.11983318029130893,
+    "coverage_2sigma": 0.9802708333333333,
+    "speedup_x": 19718.73046419574
+  },
+  "sobol": {
+    "C_W": {
+      "S1": 0.0016562786269719656,
+      "ST": 0.0017130387949717179
+    },
+    "C_M": {
+      "S1": 0.15224005465478407,
+      "ST": 0.16176145049773002
+    },
+    "G_WT": {
+      "S1": 0.0004694406318120929,
+      "ST": 0.0006390194060308656
+    },
+    "G_TM": {
+      "S1": 0.0009309115334823501,
+      "ST": 0.00997644723964855
+    },
+    "G_YC": {
+      "S1": 0.07302052194116908,
+      "ST": 0.08324829516868903
+    },
+    "k_cu": {
+      "S1": 0.7491407072681557,
+      "ST": 0.7603931016802615
+    }
+  },
+  "calibration": {
+    "posterior_to_prior_std_ratio": {
+      "C_W": 0.1679816284923377,
+      "C_M": 0.65174042501118,
+      "G_WT": 0.2521337764003698,
+      "G_TM": 0.5315513999869744,
+      "G_YC": 0.18996202128046846,
+      "k_cu": 0.11522272912336823
+    },
+    "mean_autocorr_time": 24.260506005906777,
+    "acceptance_fraction": 0.32185416666666666,
+    "coverage95_heldout": 0.6626129904016401
+  },
+  "risk": {
+    "description": "P(pm > 100 degC at any time within the 30-min decision window [t_c, t_c+30 min]), no action, nominal limit, posterior samples, headline stage 50% of held-out session 68 (same window and function as the decision layer). P(exceed before session end) is in key risk_p_session_end.",
+    "value": 0.0
+  },
+  "decision": {
+    "description": "NOMINAL scenario (headline; limit 100 degC, 50% stage, session 68). Optimal derating (current scale d, start tau after calibration) minimising expected cost per unit time: C_act*1[d<1] + C_thr*(1-d)*(H-tau) + C_fail*P(pm>limit), H=30 min, C_fail=1000, C_thr=20, C_act=5; optimal start tau*=no derating min. Stress scenario: decision_stress_prereg.",
+    "optimal_value": 1.0,
+    "unit": "derating factor d (fraction of nominal current scale)",
+    "expected_cost": 0.0
+  },
+  "runtime_sec": 462.3428120613098,
+  "limitations": [
+    "Data: one public test-bench dataset (69 sessions, 2 Hz nominal, no timestamp column). Time axis is row order at an assumed 2 Hz; not verified against a clock.",
+    "Units: values are NOT standardised/normalised as the brief suggested (speed in rpm, currents in A, temperatures in degC); no rescaling was applied beyond the train-only statistics for sigma.",
+    "Split: 8 training and 3 held-out sessions (2, 12, 68; lengths >= 2.36 h); with so few sessions the physics fit, the out-of-fold physics fits (4 sessions each) and the residual/data-driven models are weakly constrained.",
+    "Perfect foresight of inputs: the forecasts and the decision use the MEASURED future torque, speed, currents, coolant and ambient of the session. The decision is therefore conditional on known future load, which a real controller does not have; the derating benefit is an upper bound on what a forecast-based policy could achieve.",
+    "Session 68 is used for calibration (MCMC, emulator, Sobol) AND as the forecast session for the coverage and the decision; it is not an independent test set. Session 12 (not used for calibration) is the transfer check: it applies the posterior of session 68 to a different session and gives a single additional forecast.",
+    "Forecasts are initialised at the decision instant with the MEASURED stator temperatures at that instant (the magnet temperature is not measured and comes from the model). The calibration itself is a free run from the session start; the calibration likelihood does not use the stator observations to re-initialise the state.",
+    "Decimation to 5 s: fine for the thermal time constants used (dt/tau < 1 for the winding), inputs averaged per step; the matrix-exponential step is stable but first-order accurate in the input averaging.",
+    "LPTN is a 4-node simplification (no separate rotor/air-gap/end-winding nodes); no magnet heat from eddy currents beyond k_m n^2; iron loss is a speed polynomial without flux dependence.",
+    "Copper temperature coefficient alpha_cu fixed at 0.0039 1/K; winding feedback uses the previous step (explicit).",
+    "Initial state of every node is taken from the measurement at session start, including the magnet temperature (an assumption: in practice the magnet temperature is not measured; this favours the physics model).",
+    "Likelihood: AR(1) GLS on the three stator nodes with independent channels; rho is estimated from training residuals at 60 s and sigma is the bias-free training residual sd. The cross-node correlation is ignored. The GLS posterior is conditional on this error model; if the residuals are not AR(1), the posterior is overconfident (see coverage).",
+    "Emulator-variance inflation: per-output variance added to the emulator's own predictive variance, estimated on a separate 100-point design at one calibration session; it is an emulator-error scale, not a model-discrepancy term, and it is a constant in the likelihood (its magnitude is far below the observation variance).",
+    "Predictive pm band: bias-free AR(1) model error (sd and rho from training residuals only). The posterior-median bias of the no-action forecast is NOT included in the band, so coverage is limited by that bias.",
+    "Interval coverage is pooled over the three calibration stages of session 68, which share the same session and are not independent; the session-12 transfer coverage is a single forecast per level.",
+    "Stress decision: the limit is 100 degC (chosen operating limit, not a manufacturer rating); the stress (currents x1.2, coolant +10 K over the window) is pre-registered and not calibrated to make the action non-trivial. Cost constants are illustrative; no economic data was provided.",
+    "Break-even rule: the review's ~0.017 break-even at d=0.8, tau=0 does not reproduce from the code constants; the value computed from them is reported and used.",
+    "Derating acts on the current scale; the torque and copper-loss reduction are modelled, the speed-dependent iron loss is unchanged.",
+    "Held-out evaluation uses only 3 sessions; the RF, regularised hybrid, physics-feature RF and baseline comparisons carry large uncertainty.",
+    "MCMC: MAP start, DE-move / DE-snooker mixture, burn-in 500 and a post-burn cap of 3000 steps for every stage (runtime budget of 600 s). The 50-tau criterion is reported per stage; where it is false, the chain is too short for it.",
+    "Predictive coverage of the 50/80/95 bands differs from nominal by more than 0.05 (see section 7); this is reported as a failure, not corrected."
+  ],
+  "mcmc": {
+    "tau_per_param": {
+      "C_W": 24.062207795231647,
+      "C_M": 27.789953127399734,
+      "G_WT": 21.785360154911753,
+      "G_TM": 27.198380332750634,
+      "G_YC": 21.787162960753292,
+      "k_cu": 22.939971664393592
+    },
+    "n_steps": 1500,
+    "min_steps_over_tau": 53.97634149015756,
+    "ess_min": 1727.2429276850419,
+    "converged_50tau": true,
+    "stage": "75%"
+  },
+  "interval_calibration": {
+    "coverage": {
+      "0.5": 0.06383375267915385,
+      "0.8": 0.27998322616717924,
+      "0.95": 0.6626129904016401
+    },
+    "mean_width95": 24.27286181464737,
+    "interval_score_95": 39.20220759438262,
+    "bias_pm_degC": 10.012604444745179,
+    "posterior_only_coverage": {
+      "0.5": 0.0182648401826484,
+      "0.8": 0.04794520547945205,
+      "0.95": 0.0968688845401174
+    },
+    "prior_predictive_baseline": {
+      "coverage": {
+        "0.5": 0.2788649706457926,
+        "0.8": 0.9533594259621657,
+        "0.95": 1.0
+      },
+      "mean_width95": 32.82306709728116
+    },
+    "nominal_tolerance": 0.05,
+    "pass": false,
+    "session12_transfer": {
+      "coverage": {
+        "0.5": 0.8369565217391305,
+        "0.8": 1.0,
+        "0.95": 1.0
+      },
+      "interval_score_95": 22.318168733649763,
+      "bias_pm_degC": -0.6003568753054783
+    }
+  },
+  "decision_checks": {
+    "optimum_interior": true,
+    "cost_sweep_range": [
+      0.9166666666666667,
+      7.000000000000001
+    ],
+    "stressed_scenario_action_nontrivial": true,
+    "scenario": "pre-registered stress (limit 100 degC, currents x1.2, coolant +10 K), session 68, 50% stage",
+    "risk_matches_policy_noaction": true,
+    "stress_informative_session68": true,
+    "stress_informative_session12": false,
+    "breakeven_dP_d08_tau0": 0.12499999999999997,
+    "stress_dP_d08_tau0_session68": 0.3433333333333333
+  },
+  "round": 3,
+  "changes_r3": [
+    "Stress replaced: the limit is no longer the posterior median (T_STRESS removed). The pre-registered stress is limit 100 degC, measured currents x1.2 and coolant +10 K, applied only over the 30-min decision window, on session 68 and replicated on session 12.",
+    "Headline decision block (metrics decision) is the NOMINAL scenario at the 50% stage; the stress is in decision_stress_prereg.",
+    "Informativeness: the break-even dP is computed from the code constants. At d=0.8, tau=0 it is 0.125, not the review's ~0.017 (the review value does not reproduce from C_fail=1000, C_thr=20, C_act=5, H=30); the computed value is used.",
+    "MCMC: MAP start (L-BFGS-B), emcee DE-move 0.8 / DE-snooker 0.2 mixture, burn-in 500, blocks of 500, post-burn cap 3000. converged_50tau is reported truthfully per stage; the 6000-step cap of round 2 is gone.",
+    "Likelihood: the sqrt(integrated-time) variance inflation (round 2) is replaced by an AR(1) GLS likelihood on the three stator nodes (rho and bias-free sd from training residuals at 60 s). The emulator variance is a constant term in sigma^2.",
+    "GP term renamed emulator-variance inflation; its scale factor and 50/80/95 emulator coverage are reported. It is not described as model discrepancy and not as a calibration improvement.",
+    "Predictive band: bias-free AR(1) model error (sd, rho on training residuals only) instead of i.i.d. RMS noise. Coverage at 50/80/95, interval score 95, parameter-only and prior-predictive baselines reported. The 'calibration adds' claim is removed.",
+    "Hybrid residual RF trained on out-of-fold residuals: two session-grouped folds of the 8 training sessions, each LPTN fitted on the other fold (both physics features and residual target are out of fold). Test-time physics is the nominal model.",
+    "Baselines added to the held-out table: constant mean and time-only (training mean curve).",
+    "Forecast initialised at the decision instant with the measured stator temperatures (magnet from the model); the same state is used by the policy table and the predictive band.",
+    "Runtime: GP restarts 2 -> 1, GP used as mean only inside the MCMC (its variance is a constant term).",
+    "Limitations added: perfect-foresight of future inputs; session 68 used for calibration and forecast; session 12 transfer check."
+  ],
+  "r2_vs_r3": {
+    "heldout_nrmse": {
+      "r2": {
+        "physics": 0.5940214238437839,
+        "data_driven": 0.35656166828837105,
+        "hybrid": 0.6816969867360136
+      },
+      "r3": {
+        "physics": 0.5940214238437839,
+        "data_driven": 0.35656166828837105,
+        "hybrid": 0.6930341177802801
+      }
+    },
+    "coverage95": [
+      0.9931972789115647,
+      0.6626129904016401
+    ],
+    "min_steps_over_tau": [
+      45.00765590786946,
+      53.97634149015756
+    ]
+  },
+  "mcmc_by_stage": {
+    "25": {
+      "tau_per_param": {
+        "C_W": 23.363507788044874,
+        "C_M": 22.45359621823859,
+        "G_WT": 23.785873492363844,
+        "G_TM": 19.582096709795813,
+        "G_YC": 25.145542280024937,
+        "k_cu": 22.512314230409242
+      },
+      "n_post": 1500,
+      "min_steps_over_tau": 59.652720283211664,
+      "ess_min": 1908.8870490627733,
+      "acceptance": 0.3131666666666667,
+      "converged_50tau": true
+    },
+    "50": {
+      "tau_per_param": {
+        "C_W": 21.383535442086302,
+        "C_M": 22.94587899012398,
+        "G_WT": 21.587377275963096,
+        "G_TM": 23.62305692118506,
+        "G_YC": 22.668901882963283,
+        "k_cu": 21.288017970704797
+      },
+      "n_post": 1500,
+      "min_steps_over_tau": 63.49728593570827,
+      "ess_min": 2031.9131499426646,
+      "acceptance": 0.3294375,
+      "converged_50tau": true
+    },
+    "75": {
+      "tau_per_param": {
+        "C_W": 24.062207795231647,
+        "C_M": 27.789953127399734,
+        "G_WT": 21.785360154911753,
+        "G_TM": 27.198380332750634,
+        "G_YC": 21.787162960753292,
+        "k_cu": 22.939971664393592
+      },
+      "n_post": 1500,
+      "min_steps_over_tau": 53.97634149015756,
+      "ess_min": 1727.2429276850419,
+      "acceptance": 0.32185416666666666,
+      "converged_50tau": true
+    }
+  },
+  "mcmc_n_converged_stages": 3,
+  "map": {
+    "25": {
+      "theta": [
+        0.3537563893308894,
+        0.1977560255030591,
+        0.4651729376883964,
+        -0.17775722189593476,
+        0.39817250905458446,
+        0.4398210304816112
+      ],
+      "logpost": -431.24734295430306
+    },
+    "50": {
+      "theta": [
+        0.1638226107718796,
+        0.5,
+        0.2808154573153263,
+        -0.5,
+        0.21249873936681515,
+        0.2588494261414473
+      ],
+      "logpost": -929.0135075090327
+    },
+    "75": {
+      "theta": [
+        0.1941511634990474,
+        0.5,
+        0.3394655262138343,
+        -0.5,
+        0.24245287941051027,
+        0.2565442345896242
+      ],
+      "logpost": -1366.2922437102304
+    }
+  },
+  "error_model": {
+    "sd_bias_free_degC_WTYM": [
+      3.4984971824214868,
+      2.740855629244191,
+      2.56734079140319,
+      5.684372169047852
+    ],
+    "rho_60s_WTYM": [
+      0.9208107253687343,
+      0.8844477400588422,
+      0.9271611510207358,
+      0.9858259131663675
+    ],
+    "pm_predictive": {
+      "sd": 5.684372169047852,
+      "rho": 0.9858259131663675
+    },
+    "likelihood_sigma2_stator": [
+      12.29937686349049,
+      7.529191829701769,
+      6.598628042974955
+    ],
+    "emulator_inflation_mean_var_stator": [
+      0.059894328079408865,
+      0.01690224934219973,
+      0.007389303772197848
+    ],
+    "integrated_time_60s_diagnostic_WTYM": [
+      16.808817498445524,
+      26.41236324253525,
+      24.820028755460445,
+      29.493950232823078
+    ],
+    "raw_rms_degC_WTYM": [
+      4.274515290161547,
+      2.971021027818424,
+      2.7940417454775037,
+      7.0665314839394
+    ]
+  },
+  "surrogate_extra": {
+    "coverage_2sigma_before_inflation": 0.5156666666666667,
+    "r2_before_inflation": 0.9999447483436623,
+    "coverage_levels_after_inflation": {
+      "0.5": 0.6501458333333333,
+      "0.8": 0.9025833333333333,
+      "0.95": 0.9785833333333334
+    },
+    "inflation_scale_factor": 3.7410373133507346,
+    "pca_variance_ratio": 0.9993953416555161
+  },
+  "posterior_correlation": {
+    "order": [
+      "C_W",
+      "C_M",
+      "G_WT",
+      "G_TM",
+      "G_YC",
+      "k_cu"
+    ],
+    "matrix_75pct": [
+      [
+        1.0,
+        0.24501891085529404,
+        0.6600009722463945,
+        -0.14614374132764463,
+        0.6013233554695754,
+        0.9040258562557832
+      ],
+      [
+        0.24501891085529404,
+        1.0,
+        0.3490079762550383,
+        -0.2675479609206023,
+        0.015247060079114466,
+        0.1827211031101011
+      ],
+      [
+        0.6600009722463944,
+        0.34900797625503827,
+        0.9999999999999998,
+        -0.2609901473653749,
+        0.30631999765436607,
+        0.6274681589667457
+      ],
+      [
+        -0.14614374132764463,
+        -0.26754796092060235,
+        -0.26099014736537485,
+        1.0,
+        -0.03144836357182298,
+        -0.02235715599665498
+      ],
+      [
+        0.6013233554695754,
+        0.015247060079114466,
+        0.30631999765436607,
+        -0.03144836357182297,
+        1.0,
+        0.6351408306399654
+      ],
+      [
+        0.9040258562557831,
+        0.18272110311010112,
+        0.6274681589667458,
+        -0.02235715599665498,
+        0.6351408306399653,
+        1.0
+      ]
+    ],
+    "ridge_pairs_abs_gt_0p7": [
+      [
+        "C_W",
+        "k_cu",
+        0.9040258562557832
+      ]
+    ]
+  },
+  "prior_like_count_ratio_ge_0p8": 0,
+  "decision_nominal": {
+    "limit_degC": 100.0,
+    "optimal_value": 1.0,
+    "tau_min": null,
+    "expected_cost": 0.0,
+    "no_action_cost": 0.0,
+    "p_window_no_action": 0.0
+  },
+  "decision_stress_prereg": {
+    "limit_degC": 100.0,
+    "current_scale": 1.2,
+    "coolant_offset_K": 10.0,
+    "window_min": 30.0,
+    "stage": 50,
+    "session68": {
+      "p_no_action": 0.3433333333333333,
+      "informative": true,
+      "best_is_action": true,
+      "dP_best": 0.33666666666666667,
+      "breakeven_best": 0.08,
+      "d_opt": 0.75,
+      "tau_opt": 15.0,
+      "cost": 2.888888888888889,
+      "no_action_cost": 11.444444444444445
+    },
+    "session12_replicate": {
+      "p_no_action": 0.0,
+      "informative": false,
+      "best_is_action": false,
+      "dP_best": 0.0,
+      "breakeven_best": NaN,
+      "d_opt": 1.0,
+      "tau_opt": null,
+      "cost": 0.0,
+      "no_action_cost": 0.0
+    },
+    "breakeven_rule": "dP > (C_act + C_thr*(1-d)*(H-tau))/C_fail"
+  },
+  "decision_sensitivity": {
+    "nominal": {
+      "5.0": {
+        "d_opt": 1.0,
+        "tau_opt_min": null,
+        "cost": 0.0,
+        "act": 0
+      },
+      "10.0": {
+        "d_opt": 1.0,
+        "tau_opt_min": null,
+        "cost": 0.0,
+        "act": 0
+      },
+      "20.0": {
+        "d_opt": 1.0,
+        "tau_opt_min": null,
+        "cost": 0.0,
+        "act": 0
+      },
+      "40.0": {
+        "d_opt": 1.0,
+        "tau_opt_min": null,
+        "cost": 0.0,
+        "act": 0
+      },
+      "60.0": {
+        "d_opt": 1.0,
+        "tau_opt_min": null,
+        "cost": 0.0,
+        "act": 0
+      }
+    },
+    "stress": {
+      "5.0": {
+        "d_opt": 0.7,
+        "tau_opt_min": 15.0,
+        "cost": 0.9166666666666667,
+        "act": 1
+      },
+      "10.0": {
+        "d_opt": 0.75,
+        "tau_opt_min": 15.0,
+        "cost": 1.6388888888888888,
+        "act": 1
+      },
+      "20.0": {
+        "d_opt": 0.75,
+        "tau_opt_min": 15.0,
+        "cost": 2.888888888888889,
+        "act": 1
+      },
+      "40.0": {
+        "d_opt": 0.8,
+        "tau_opt_min": 15.0,
+        "cost": 5.0555555555555545,
+        "act": 1
+      },
+      "60.0": {
+        "d_opt": 0.85,
+        "tau_opt_min": 15.0,
+        "cost": 7.000000000000001,
+        "act": 1
+      }
+    }
+  },
+  "risk_p_session_end": 0.016666666666666666,
+  "heldout_extra": {
+    "nrmse": {
+      "hybrid_regularised_rf": 0.6787827630492931,
+      "physics_feature_rf": 0.585730645594896,
+      "baseline_constant_mean": 1.1651092055552827,
+      "baseline_time_only": 1.0696733435459906
+    },
+    "rmse": {
+      "hybrid_regularised_rf": 11.782483518392056,
+      "physics_feature_rf": 10.167261241190099,
+      "baseline_constant_mean": 20.224261367381047,
+      "baseline_time_only": 18.567661447052245
+    },
+    "bias_degC": {
+      "physics": 2.719994731018209,
+      "data_driven": 3.640574700297586,
+      "hybrid": 4.824050052259631,
+      "hybrid_regularised_rf": 4.645580804185076,
+      "physics_feature_rf": 6.3137537321496655,
+      "baseline_constant_mean": 10.378428142382905,
+      "baseline_time_only": 6.189696348989733
+    }
+  },
+  "oof_physics_rmse_WTYM": [
+    6.004570633278771,
+    3.82258511122946,
+    2.4681544247426017,
+    8.776423553916766
+  ]
+}

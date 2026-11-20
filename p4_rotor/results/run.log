@@ -1,0 +1,48 @@
+[data] rows=5980 cols=55 NaN=0 conditions=38 groups=19 cells=1196 repeats/cell={5: 1196} feature_cols=42
+[data] partial conditions (rows != 165): {'M0.5_U13.6_A0B1': 70, 'M0.5_U20.4_A0B1': 65, 'M0.5_U27.2_A0B1': 70}; max |RMS-STD| over axes = 0.0077 g; Normal rows = 165
+[axis] chosen target axis = Z (Z Root Mean Squared); criteria (round-2 definition, unchanged):
+axis  corr_raw  corr_excess  n_clipped
+   X  0.862847     0.161686        700
+   Y  0.804105     0.263416        706
+   Z  0.750085     0.689359        413
+[limit] severity limit = P99 of Normal-condition Z RMS (all Positions) = 0.1028 g
+[floor] healthy Z RMS per Position at 300 RPM: P1=0.0202, P2=0.0150, P3=0.0275
+[physics data] 231 Mis=0 unbalance cells (Position x RPM x condition), 198 single-disc (A1B0/A0B1) and 33 both-disc (A1B1) cells
+[noise] within-cell log sd of the repeats: median 0.0084
+[physics] 2-DOF full fit (all Mis=0 cells incl. A1B1, 80 starts): training log-RMSE = 0.3362 (within-cell noise 0.0084); 28.3 s
+[physics] 2-DOF parameters: log_kA=11.965, log_kB=9.210, log_ks=11.041, log_cA=6.803, log_cB=-2.303, log_e0=-12.715, log_kappaB=-1.587, phi=1.970, rho_p1=-1.527, rho_p2=-5.109, rho_p3=6.000, log_G_p2=-1.290, log_G_p3=-1.137, log_zeta_p1=0.001, log_zeta_p2=-0.005, log_zeta_p3=-0.599
+[physics] 1-DOF ablation (single-disc cells only, A1B1 excluded): training log-RMSE = 0.4053; k=1.979e+05 c=1.576e+02 e=3.379e-03
+[axis-leak check] axis chosen on the training rows of each LOGO fold: Z in 18/18 folds
+[cv] seed 0: pooled RMSE (g) physics2=0.1090 physics1(ablation)=0.1504 data(cond)=0.0691 data(full)=0.0678 hybrid=0.0570 (26.3 s)
+[cv] seed 1: pooled RMSE (g) physics2=0.1090 physics1(ablation)=0.1504 data(cond)=0.0698 data(full)=0.0672 hybrid=0.0569 (26.7 s)
+[cv] seed 2: pooled RMSE (g) physics2=0.1090 physics1(ablation)=0.1504 data(cond)=0.0696 data(full)=0.0670 hybrid=0.0562 (26.6 s)
+[cv] seed 3: pooled RMSE (g) physics2=0.1090 physics1(ablation)=0.1504 data(cond)=0.0693 data(full)=0.0674 hybrid=0.0556 (27.4 s)
+[cv] seed 4: pooled RMSE (g) physics2=0.1090 physics1(ablation)=0.1504 data(cond)=0.0690 data(full)=0.0674 hybrid=0.0557 (27.9 s)
+[cv] paired hybrid-data(full): pooled diff=-0.0111; hybrid better in 15/18 groups (sign p=0.008); bootstrap CI of group-mean diff [-0.0137, -0.0003]
+[cv] paired hybrid-physics2: pooled diff=-0.0527; hybrid better in 18/18 groups (sign p=0.000)
+[cv] paired physics2-physics1(ablation): pooled diff=-0.0414; 2-DOF better in 7/18 groups (sign p=0.481)
+[cv] A1B1 rows (all Misalignment, n=660): RMSE physics2=0.1202 physics1=0.3382 data(full)=0.0222 hybrid=0.0140
+[verification] closed form vs independent real 4x4 solve (300 random parameter/speed/position points): R2(log)=1.000000000000, RMSE=6.57e-17 g, max relative error=2.70e-15; closed form is 1.0x faster than the 4x4 solve loop (0.1 s)
+[sobol] 2-DOF, output = log peak unbalance response (A1B1, 20.4 g per disc, 3 Positions, 300-3300 RPM), N_saltelli=9216: log_kA S1=0.074 ST=0.240, log_kB S1=0.172 ST=0.320, log_ks S1=0.030 ST=0.130, log_cA S1=0.011 ST=0.072, log_cB S1=0.040 ST=0.086, log_kappaB S1=0.422 ST=0.534, phi S1=0.005 ST=0.005 (0.3 s)
+[calib] held-out M0.0_U20.4_A1B0 (group M0.0_U20.4 excluded from the centre); RPM sweep 300, 600, 900, 1200, 1500, 1800, 2100, 2400, 2700, 3000, 3300; stages use the first n RPM points: 25% n=3, 50% n=6, 75% n=8
+[calib] 25% stage (3 RPM pts x 3 Positions): MAP logpost=7.57 (MAP 2.3 s); MCMC 22000 steps, burn 3000, DEMove 0.8 / DESnookerMove 0.2, acceptance=0.060, max tau=602.4, non-finite tau params=0, steps/max-tau=31.5 (44.2 s)
+[calib] 50% stage (6 RPM pts x 3 Positions): MAP logpost=15.12 (MAP 1.6 s); MCMC 22000 steps, burn 3000, DEMove 0.8 / DESnookerMove 0.2, acceptance=0.021, max tau=1525.3, non-finite tau params=0, steps/max-tau=12.5 (46.2 s)
+[calib] 75% stage (8 RPM pts x 3 Positions): MAP logpost=10.87 (MAP 2.7 s); MCMC 22000 steps, burn 3000, DEMove 0.8 / DESnookerMove 0.2, acceptance=0.022, max tau=2304.4, non-finite tau params=0, steps/max-tau=8.2 (52.3 s)
+[calib] replication M0.0_U13.6_A1B0, 50% stage (6 RPM pts): acceptance=0.022, steps/max-tau=15.1 (52.4 s)
+[calib] sensitivity: 75% stage with a_disc = 0 (no discrepancy term): acceptance=0.022, steps/max-tau=8.6 (59.1 s)
+[calib] posterior/prior std ratio (75%): log_kA=0.035, log_kB=0.361, log_ks=0.233, log_cA=0.621, log_cB=0.572, log_e0=0.225, rho_p1=1.153, rho_p2=0.486, rho_p3=0.724, log_G_p2=0.254, log_G_p3=0.347, log_sigma_obs=0.300, log_a_disc=0.693
+[calib] identifiable physics parameters at 75% (ratio < 0.5): 7 of 11
+[coverage] per-point (unused RPM, per Position) out-of-sample coverage at 50/80/95%: main 25%: 0.12/0.83/1.00 (n_RPM=8, in-range 5); main 50%: 0.40/0.93/1.00 (n_RPM=5, in-range 2); main 75%: 0.22/0.56/0.78 (n_RPM=3, in-range 0); replication M0.0_U13.6_A1B0 50%: 0.47/0.87/1.00 (n_RPM=5, in-range 2)
+[coverage] r1-definition (25% stage, r1 point set = 8 unused RPM, position-averaged observation): 95% = 1.000
+[coverage] replication M0.0_U13.6_A1B0 50% stage: 95% per-point = 1.000 (n_RPM=5)
+[risk] 25% stage: P(any Position > limit) at 2400 RPM, no action = 0.385; max safe RPM (no action, P<=5%)=1350.0; baseline optimum=1950 RPM (rebalance), J*=4.04 cost/h; P>=0.99 on 0% of the calibrated grid
+[risk] 50% stage: P(any Position > limit) at 2400 RPM, no action = 0.976; max safe RPM (no action, P<=5%)=1650.0; baseline optimum=1950 RPM (rebalance), J*=2.98 cost/h; P>=0.99 on 0% of the calibrated grid
+[risk] 75% stage: P(any Position > limit) at 2400 RPM, no action = 1.000; max safe RPM (no action, P<=5%)=1650.0; baseline optimum=2100 RPM (rebalance), J*=2.49 cost/h; P>=0.99 on 27% of the calibrated grid from 1950 RPM
+[boundary] 75% stage: rebalance is the optimum for resid_frac up to 0.4 and continue for resid_frac from 0.45 (scan 0.05-1.0, 20 values)
+[boundary] 50% stage: rebalance is the optimum for resid_frac up to 0.55 and continue for resid_frac from 0.6 (scan 0.05-1.0, 20 values)
+[decision] factorial sweep (81 combinations, 75% stage): optimum RPM range 1350-2400; rebalance optimal in 35/81 combinations
+[decision] baseline (75%): optimum 2100 RPM (rebalance); 50% fair stage: 1950 RPM (rebalance); stressed (C_fail=2000, h_fail=0.2): 1950 RPM (rebalance)
+[sensitivity] discrepancy a_disc free (baseline): sigma_obs=0.0810 P(any > limit) at 2400=1.000 optimum=2100 (rebalance)
+[sensitivity] a_disc = 0 (no discrepancy term): sigma_obs=0.1631 P(any > limit) at 2400=1.000 optimum=1950 (rebalance)
+[figures] fig1-fig7 written
+[done] runtime 428.1 s; figures, metrics.json and summary.md written

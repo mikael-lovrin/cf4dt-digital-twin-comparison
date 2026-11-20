@@ -1,0 +1,84 @@
+{
+  "project": "p1_cnc",
+  "n_rows": 2000,
+  "target": "VB_mm",
+  "target_unit": "mm",
+  "has_real_time_axis": false,
+  "has_unit_ids": false,
+  "data_synthetic_suspected": true,
+  "heldout_rmse": {
+    "physics": 0.003858673429237654,
+    "data_driven": 0.11138760363858881,
+    "hybrid": 0.003619728047662766
+  },
+  "heldout_nrmse": {
+    "physics": 0.038810812583023775,
+    "data_driven": 1.120344462460379,
+    "hybrid": 0.03640748289162923
+  },
+  "surrogate": {
+    "r2": 0.9964849401313799,
+    "rmse": 0.32393123167507454,
+    "coverage_2sigma": 0.9455737704918032,
+    "speedup_x": 521.4705173257743
+  },
+  "sobol": {
+    "log_k1": {
+      "S1": 0.13435116154706417,
+      "ST": 0.21910421512143988
+    },
+    "log_k2": {
+      "S1": 0.34788186497975904,
+      "ST": 0.49295613601950056
+    },
+    "alpha": {
+      "S1": -0.0060309635624041565,
+      "ST": 0.05130604299811212
+    },
+    "log_hA": {
+      "S1": 0.2858441849738177,
+      "ST": 0.4286889217649021
+    },
+    "vc": {
+      "S1": 0.025538629223036638,
+      "ST": 0.09693437842394546
+    }
+  },
+  "calibration": {
+    "posterior_to_prior_std_ratio": {
+      "k1": 0.5406897794422271,
+      "k2": 0.6835660805272175,
+      "alpha": 0.4826368944553727,
+      "hA": 0.3830165269122877,
+      "sigma_obs": 0.5744577779317867,
+      "c_w": 0.0573172097602583
+    },
+    "mean_autocorr_time": 55.16426552888589,
+    "acceptance_fraction": 0.10127314814814814,
+    "coverage95_heldout": 1.0
+  },
+  "risk": {
+    "description": "P(RUL <= T*) at 50% life: probability of failure (VB >= 0.30 mm) within the optimal replacement interval, posterior predictive",
+    "value": 0.09
+  },
+  "decision": {
+    "description": "Replacement interval T* minimising expected cost rate C(T)=[c_p P(RUL>T)+c_f P(RUL<=T)]/E[min(RUL,T)], c_p=1, c_f=5 (assumed); from posterior predictive at 50% life; time in pseudo-time units (PTU)",
+    "optimal_value": 389.51814768460576,
+    "unit": "PTU",
+    "expected_cost": 0.003550116586824164
+  },
+  "runtime_sec": 69.14134120941162,
+  "limitations": [
+    "Data appear SYNTHETIC: uniform features, no tool/time/unit ID, VB_mm has 20 negative values; Wear_Class is a deterministic binning of VB_mm (Healthy<0.10<=Moderate<0.25<=Worn).",
+    "Pseudo-time is reconstructed by sorting on VB_mm, so VB is monotone in pseudo-time by construction; physics predictions use a target-derived time index and are NOT an independent predictive test.",
+    "Features explain almost nothing: max|Pearson r|=0.059, RF CV R2 random=-0.022, blocked=-0.120. Hybrid gain over physics is nil.",
+    "RUL is in pseudo-time units (PTU, 1 PTU = one sorted sample index), not hours or cycles.",
+    "F_res = sqrt(CF_1^2+CF_2^2+CF_3^2) is a combination of feature columns, not measured Fx,Fy,Fz.",
+    "Vibration/AE are single snapshot values per row; no ax,ay,az time series, so no windowed RMS/std.",
+    "Nominal constants (sigma_n, Ea/R, C_th, T_inf, eta, T rise) are fixed, not fitted; only k1,k2,alpha,hA,vc vary.",
+    "Costs c_p=1, c_f=5 and derating law (gamma=0.5, d_min=0.7) are assumptions, not data-derived.",
+    "Calibration uses one pseudo-trajectory (no unit replicates); posterior is conditional on the GP surrogate and on the assumed noise/force model; c_w is essentially unidentified.",
+    "Posterior RUL uses GP mean trajectories (GP variance enters the likelihood and the coverage band, not the RUL draws).",
+    "Surrogate horizon 3000 PTU exceeds the 2000-row record; F_res is wrapped periodically beyond 2000 PTU."
+  ]
+}

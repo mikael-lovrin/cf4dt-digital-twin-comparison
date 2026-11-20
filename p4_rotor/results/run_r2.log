@@ -1,0 +1,45 @@
+[data] rows=5980 cols=52 NaN=0 conditions=38 groups=19 cells=1196 repeats/cell={5: 1196} feature_cols=42
+[data] partial conditions (rows != 165): {'M0.5_U13.6_A0B1': 70, 'M0.5_U20.4_A0B1': 65, 'M0.5_U27.2_A0B1': 70}; max |RMS-STD| over axes = 0.0077 g
+[axis] chosen target axis = Z (Z Root Mean Squared); criteria:
+axis  corr_raw  corr_excess  n_clipped
+   X  0.862847     0.161686        700
+   Y  0.804105     0.263416        706
+   Z  0.750085     0.689359        413
+[limit] severity limit = P99 of Normal-condition Z RMS = 0.1028 g
+[axis-leak check] axis chosen on the training rows of each LOGO fold: Z in 18/18 folds
+[cv] seed 0: pooled RMSE (g) physics=0.1255 data(cond)=0.0691 data(full)=0.0678 hybrid=0.0566 (28.0 s)
+[cv] seed 1: pooled RMSE (g) physics=0.1255 data(cond)=0.0698 data(full)=0.0672 hybrid=0.0552 (26.8 s)
+[cv] seed 2: pooled RMSE (g) physics=0.1255 data(cond)=0.0696 data(full)=0.0670 hybrid=0.0554 (26.4 s)
+[cv] seed 3: pooled RMSE (g) physics=0.1255 data(cond)=0.0693 data(full)=0.0674 hybrid=0.0564 (26.5 s)
+[cv] seed 4: pooled RMSE (g) physics=0.1255 data(cond)=0.0690 data(full)=0.0674 hybrid=0.0547 (26.5 s)
+[cv] paired hybrid-data(full): mean pooled diff=-0.0117 (sd 0.0007); hybrid better in 14/18 groups (sign p=0.031); bootstrap CI of group-mean diff [-0.0125, -0.001]
+[cv] paired hybrid-physics: mean pooled diff=-0.0699; hybrid better in 18/18 groups (sign p=0.000)
+[physics] nominal fit (all Mis=0 unbalance rows, m fixed 3.0 kg): k=1.971e+05 c=1.467e+02 e=2.300e-03 | k/m=6.569e+04 c/m=4.891e+01 e/m=7.667e-04 | R2(log)=0.728 | natural speed=2447 RPM
+[identifiability] max rel. diff, theta vs combo form = 4.10e-16; max rel. change when (k,c,m,e) are rescaled with m = 0.5/2/20 x m0 = 5.38e-16 (m and e are not separately identifiable)
+[surrogate] kernel=15.7**2 * Matern(length_scale=[2.81, 11, 100, 9.93], nu=2.5) + WhiteKernel(noise_level=0.000985)
+[surrogate] ARD length scales (standardised inputs): log(k/m)=2.81, log(c/m)=10.96, log(e/m)=100.00, RPM=9.93; at upper bound: ['log(e/m)']
+[surrogate] R2(log)=0.9988 RMSE(g per g-unit)=4.8215e-02 coverage2sigma=0.963 speedup_x=0.0059 (GP mean 192.2 ms vs closed form 1.1 ms on 20k pts) | max |fast - sklearn| = 8.7e-10 | 19.9 s
+[sobol] N_saltelli=6144 (k,c,m,e): k S1=0.193 ST=0.251, c S1=0.096 ST=0.145, m S1=0.014 ST=0.041, e S1=0.634 ST=0.634
+[sobol] (k/m,c/m,e/m): k_over_m S1=0.181 ST=0.219, c_over_m S1=0.101 ST=0.139, e_over_m S1=0.679 ST=0.678
+[calib] stage 25% (3 RPM pts): 12000 steps, burn 1500, acceptance=0.348, tau=[135.2 150.3 151.8 208.5 307.3], steps/max-tau=34.2 | pilot median k/m=1.937e+05 c/m=1.322e+02 e/m=1.400e-04 | sigma_obs(median)=0.0241 a_disc(median)=0.1315 | GP sd change pilot->final median (max rel.)=0.079 | coverage on unused in-range pts 50%: 0.00, 80%: 0.40, 95%: 0.60; extrapolation 95%: 1.00 (3 pts) | 28.6 s
+[calib] stage 50% (6 RPM pts): 12000 steps, burn 1500, acceptance=0.272, tau=[329.5 293.8 300.1 270.  344.8], steps/max-tau=30.5 | pilot median k/m=2.139e+05 c/m=2.838e+01 e/m=8.900e-03 | sigma_obs(median)=0.0333 a_disc(median)=0.1728 | GP sd change pilot->final median (max rel.)=0.065 | coverage on unused in-range pts 50%: 0.00, 80%: 0.00, 95%: 0.00; extrapolation 95%: 1.00 (3 pts) | 78.3 s
+[calib] stage 75% (8 RPM pts): 12000 steps, burn 1500, acceptance=0.434, tau=[455.9 228.4 348.1 152.4 268.8], steps/max-tau=23.0 | pilot median k/m=8.885e+04 c/m=4.824e+00 e/m=2.279e-03 | sigma_obs(median)=0.0296 a_disc(median)=0.1715 | GP sd change pilot->final median (max rel.)=0.001 | coverage on unused in-range pts n/a (no unused points <=2400); extrapolation 95%: 0.33 (3 pts) | 79.8 s
+[calib] posterior/prior std ratio (75%): k_over_m=0.265, c_over_m=0.479, e_over_m=0.302, sigma_obs=0.659, a_disc=0.515
+[calib] corr matrix (75%):
+[[ 1.   -0.23  0.43 -0.03 -0.01]
+ [-0.23  1.    0.21 -0.04  0.15]
+ [ 0.43  0.21  1.   -0.11  0.26]
+ [-0.03 -0.04 -0.11  1.   -0.51]
+ [-0.01  0.15  0.26 -0.51  1.  ]]
+[calib] natural speed posterior (75%): median 2835 RPM, 95% [1101, 12670]
+[decision] stage 25%: P(exceed) at 2400 RPM (no action)=0.074; max safe RPM (no action, P<=5%)=1950.0; optimum=2400 RPM (rebalance), J*=1.54 cost/h, derate=1.00
+[decision] stage 50%: P(exceed) at 2400 RPM (no action)=0.837; max safe RPM (no action, P<=5%)=1800.0; optimum=1650 RPM (continue), J*=3.21 cost/h, derate=0.69
+[decision] stage 75%: P(exceed) at 2400 RPM (no action)=1.000; max safe RPM (no action, P<=5%)=1650.0; optimum=2100 RPM (rebalance), J*=2.89 cost/h, derate=0.88
+[decision] factorial sweep (V_full x h_fail x resid_frac x C_fail = 81 combos, 75%): optimum RPM range [1500, 2400]; interior fraction=0.96; actions: continue=54, rebalance=27
+[decision] baseline optimum 2100 RPM (rebalance), interior=True; stressed (C_fail=2000, h_fail=0.2): 1800 RPM (rebalance), nontrivial=True
+[sensitivity] per-RPM at posterior median (round 2): sigma_obs=0.0296 P(exceed at 2400)=1.000 optimum=2100 RPM (rebalance) mean 95% width=0.1196 g
+[sensitivity] constant sd=0.05 (6000 steps, not 50-tau converged): sigma_obs=0.1275 P(exceed at 2400)=1.000 optimum=1950 RPM (rebalance) mean 95% width=0.1090 g
+[sensitivity] constant sd=0.26 (6000 steps, not 50-tau converged): sigma_obs=0.0302 P(exceed at 2400)=1.000 optimum=1950 RPM (rebalance) mean 95% width=0.1509 g
+[coverage] pooled in-range unused points (n=7): 0.5=0.00, 0.8=0.29, 0.95=0.43; extrapolation (2700-3300 RPM, n=9): 0.5=0.22, 0.8=0.33, 0.95=0.78; mean 95% width on 300-2400 RPM (75%) = 0.1196 g
+[figures] fig1-fig6 written to results/figures
+[done] runtime 431.0 s; metrics.json and summary.md written
